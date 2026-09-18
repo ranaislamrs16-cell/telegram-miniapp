@@ -1,77 +1,310 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tap to Earn Demo App</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- টেলিগ্রাম ওয়েব অ্যাপের অফিশিয়াল SDK -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RS Tap & Earn Mini App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e1b4b, #311042);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            max-height: 900px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* Header */
+        .app-header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .app-header h2 {
+            font-size: 20px;
+            background: linear-gradient(45deg, #f59e0b, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            padding-bottom: 90px;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Cards */
+        .card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        /* Tap & Earn Game Section */
+        .coin-display {
+            font-size: 38px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #facc15;
+            text-shadow: 0 0 15px rgba(250, 204, 21, 0.5);
+        }
+        .tap-coin-btn {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #f59e0b, #b45309);
+            border: 5px solid #fde047;
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.6);
+            margin: 20px auto;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 42px;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            transition: transform 0.1s ease;
+        }
+        .tap-coin-btn:active {
+            transform: scale(0.92);
+        }
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 75px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+        }
+        .nav-item {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            font-size: 11px;
+            transition: 0.3s;
+        }
+        .nav-item span {
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+        .nav-item.active {
+            color: #38bdf8;
+            transform: translateY(-3px);
+        }
+        /* List & Rank Styles */
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
 </head>
 <body>
-  <div class="app-container">
-    
-    <!-- ১. হোম স্ক্রিন -->
-    <section id="home-screen" class="screen active">
-      <div class="profile-card">
-        <h2>স্বাগতম, <span id="username">ইউজার</span>!</h2>
-        <div class="balance-box">
-          <p>মোট পয়েন্ট / ব্যালেন্স</p>
-          <h1 id="coin-count">0</h1>
+
+<div class="app-container">
+    <!-- Header -->
+    <div class="app-header">
+        <h2>RS Tap & Earn</h2>
+        <div style="font-size: 14px; background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 20px;">⚡ $RS Level 1</div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-area">
+        
+        <!-- ১. হোম স্ক্রিন (Home Tab) -->
+        <div id="home" class="tab-content active">
+            <div class="card">
+                <p style="color: #94a3b8; font-size: 14px;">মোট $RS টোকেন ব্যালেন্স</p>
+                <div class="coin-display" id="coinCount">0 $RS</div>
+                <!-- মাঝখানের গোল লোগোটিতে RS টোকেন সেট করা হয়েছে -->
+                <div class="tap-coin-btn" onclick="tapCoin()">RS</div>
+                <p style="font-size: 12px; color: #cbd5e1;">ট্যাপ করে $RS টোকেন আর্ন করুন!</p>
+            </div>
+
+            <div class="card" style="text-align: left;">
+                <h3 style="font-size: 16px; margin-bottom: 10px; color: #38bdf8;">🎁 ডেইলি চেক-ইন বোনাস</h3>
+                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">প্রতিদিন একবার করে বোনাস ক্লেইম করুন।</p>
+                <button class="btn-primary" onclick="claimBonus()">ডেইলি চেক-ইন ক্লেইম (+500 $RS)</button>
+            </div>
         </div>
-      </div>
-      
-      <!-- কুইক ওয়ালেট সেকশন -->
-      <div class="quick-wallet">
-        <h3>মাই অ্যাকাউন্ট ওয়ালেট</h3>
-        <p>বিকাশ/নগদ ডিপোজিট ও উইথড্রল</p>
-        <div class="action-btns">
-          <button onclick="showSection('wallet-screen')">ডিপোজিট</button>
-          <button onclick="showSection('wallet-screen')">উইথড্র</button>
+
+        <!-- ২. রেফারেল স্ক্রিন (Referral Tab) -->
+        <div id="referral" class="tab-content">
+            <div class="card" style="text-align: left;">
+                <h3 style="margin-bottom: 10px; color: #f472b6;">👥 রেফারেল & শেয়ার</h3>
+                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">বন্ধుদের ইনভাইট করুন এবং প্রতি রেফারে পান ১০০০ $RS টোকেন!</p>
+                <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; font-size: 12px; word-break: break-all; margin-bottom: 15px; border: 1px dashed rgba(255,255,255,0.2);">
+                    https://t.me/RS_Crypto_Bot?start=ref12345
+                </div>
+                <button class="btn-primary" onclick="alert('লিংক কপি করা হয়েছে!')">লিংক কপি করুন</button>
+            </div>
         </div>
-      </div>
-    </section>
 
-    <!-- ২. রেফারেল স্ক্রিন -->
-    <section id="referral-screen" class="screen">
-      <h2>রেফারেল & শেয়ার</h2>
-      <p>আপনার রেফারেল লিঙ্ক শেয়ার করুন এবং পয়েন্ট আয় করুন!</p>
-      <div class="ref-box">
-        <input type="text" value="https://t.me/your_bot?start=12345" readonly id="ref-link">
-        <button onclick="copyRefLink()">কপি করুন</button>
-      </div>
-    </section>
-
-    <!-- ৩. র‍্যাংকিং স্ক্রিন -->
-    <section id="ranking-screen" class="screen">
-      <h2>লিডারবোর্ড & র‍্যাংকিং</h2>
-      <p>সেরা ব্যবহারকারীদের তালিকা</p>
-      <ul class="leaderboard-list">
-        <li><span>#১ সাকিব</span> <span>৫০,০০০ পয়েন্ট</span></li>
-        <li><span>#২ রাহিম</span> <span>৩৫,০০০ পয়েন্ট</span></li>
-        <li><span>#৩ আপনি</span> <span id="user-rank">০ পয়েন্ট</span></li>
-      </ul>
-    </section>
-
-    <!-- ৪. ওয়ালেট স্ক্রিন -->
-    <section id="wallet-screen" class="screen">
-      <h2>ওয়ালেট সিস্টেম</h2>
-      <div class="payment-methods">
-        <button class="pay-btn bkash">bKash</button>
-        <button class="pay-btn nagad">Nagad</button>
-      </div>
-      <div class="history-box">
-        <h3>পেমেন্ট হিস্ট্রি</h3>
-        <p class="pending-status">স্ট্যাটাস: পেন্ডিং (পেন্ডিং হিস্ট্রি চেক)</p>
-      </div>
-    </section>
-
-    <!-- নিচের নেভিগেশন বার -->
-    <nav class="bottom-nav">
-      <button onclick="showSection('home-screen')" class="nav-btn active">হোম</button>
-      <button onclick="showSection('referral-screen')" class="nav-btn">রেফার</button>
-      <button onclick="showSection('ranking-screen')" class="nav-btn">র‍্যাংক</button>
-      <button onclick="showSection('wallet-screen')" class="nav-btn">ওয়ালেট</button>
-    </nav>
-
+        <!-- ৩. র‍্যাংক স্ক্রিন (Rank Tab) -->
+        <div id="rank" class="tab-content">
+            <h3 style="margin-bottom: 15px; color: #fbbf24;">🏆 লিডারবোর্ড & র‍্যাঙ্কিং</h3>
+            <div class="list-item">
+                <span>🥇 #১ সাকিব</span>
+                <span style="color: #facc15; font-weight: bold;">৫০,০০০ $RS</span>
+            </div>
+            <div class="list-item">
+                <span>🥈 #২ রহিম</span>
+                <span style="color: #facc15; font-weight: bold;">৩৫,০০০ $RS</span>
+            </div>
+            <div class="list-item" style="border: 1px solid #38bdf8;">
+                <span>🥉 #৩ আপনি</span>
+                <span style="color: #38bdf8; font-weight: bold;" id="myRankScore">0 $RS</span>
+            </div>
         </div>
+
+        <!-- ৪. সাপোর্ট স্ক্রিন (Support Tab - AI Bot Link) -->
+        <div id="support" class="tab-content">
+            <div class="card">
+                <h3 style="color: #a78bfa; margin-bottom: 10px;">🤖 AI ব্যাকএন্ড সাপোর্ট</h3>
+                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">$RS টোকেন ও ওয়ালেট সংক্রান্ত যেকোনো প্রশ্ন করতে আমাদের এআই সাপোর্টে চলে যান।</p>
+                <button class="btn-primary" onclick="window.open('https://t.me/RS_Crypto_Bot', '_blank')">বটে মেসেজ করুন</button>
+            </div>
+        </div>
+
+        <!-- ৫. অ্যাকাউন্ট ও ওয়ালেট স্ক্রিন (Account & Wallet Tab) -->
+        <div id="wallet" class="tab-content">
+            <div class="card" style="text-align: left;">
+                <h3 style="margin-bottom: 10px; color: #34d399;">💳 মাই অ্যাকাউন্ট ওয়ালেট</h3>
+                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">বিকাশ ও নগদের মাধ্যমে খুব সহজেই ডিপোজিট ও উইথড্র করুন।</p>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-primary" style="background: linear-gradient(135deg, #059669, #10b981);" onclick="alert('ডিপোজিট সিস্টেম শীঘ্রই আসছে!')">ডিপোজিট</button>
+                    <button class="btn-primary" style="background: linear-gradient(135deg, #dc2626, #ef4444);" onclick="alert('উইথড্র সিস্টেম শীঘ্রই আসছে!')">উইথড্র</button>
+                </div>
+            </div>
+            <div class="card" style="text-align: left;">
+                <h4 style="font-size: 14px; margin-bottom: 8px; color: #cbd5e1;">পেমেন্ট হিস্ট্রি</h4>
+                <p style="font-size: 12px; color: #64748b;">কোনো লেনদেন পাওয়া যায়নি।</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="switchTab('home', this)">
+            <span>🏠</span>হোম
+        </button>
+        <button class="nav-item" onclick="switchTab('referral', this)">
+            <span>👥</span>রেফার
+        </button>
+        <button class="nav-item" onclick="switchTab('rank', this)">
+            <span>🏆</span>র‍্যাংক
+        </button>
+        <button class="nav-item" onclick="switchTab('support', this)">
+            <span>🤖</span>সাপোর্ট
+        </button>
+        <button class="nav-item" onclick="switchTab('wallet', this)">
+            <span>💳</span>ওয়ালেট
+        </button>
+    </div>
+</div>
+
+<script>
+    let coins = 0;
+
+    function tapCoin() {
+        coins += 1;
+        document.getElementById('coinCount').innerText = coins + ' $RS';
+        document.getElementById('myRankScore').innerText = coins + ' $RS';
+    }
+
+    function claimBonus() {
+        coins += 500;
+        document.getElementById('coinCount').innerText = coins + ' $RS';
+        document.getElementById('myRankScore').innerText = coins + ' $RS';
+        alert('অভিনন্দন! আপনি সফলভাবে ৫০০ $RS বোনাস ক্লেইম করেছেন।');
+    }
+
+    function switchTab(tabId, btnElement) {
+        // Hide all tabs
+        const tabs = document.querySelectorAll('.tab-content');
+        tabs.forEach(tab => tab.classList.remove('active'));
+
+        // Remove active class from all buttons
+        const buttons = document.querySelectorAll('.nav-item');
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        // Show target tab and activate button
+        document.getElementById(tabId).classList.add('active');
+        btnElement.classList.add('active');
+    }
+</script>
+
+</body>
+  </html>
