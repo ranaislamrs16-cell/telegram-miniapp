@@ -1,3 +1,4 @@
+
 import asyncio
 import logging
 import os
@@ -16,12 +17,12 @@ async def start_web_server():
     runner = web.AppRunner(app_web)
     await runner.setup()
     
-    # রেন্ডার থেকে পাওয়া পোর্ট অথবা ডিফল্ট ১০০০০ পোর্ট ব্যবহার করা
     port = int(os.environ.get("PORT", 10000))
     site = web.TCPSite(runner, '0.0.0.0', port)
     await site.start()
 
 # জেমিনি এবং টেলিগ্রাম কনফিগারেশন
+# (আপনার দেওয়া এপিআই কি অপরিবর্তিত রাখা হয়েছে)
 client = genai.Client(api_key="AQ.Ab8RN6LAY2E20xSQ4w_RfvgKyrmZ6UXZewMMRnnTJHvmI-PATA")
 TELEGRAM_BOT_TOKEN = "8850565414:AAE7iqrTaRma-Lqxfcwe5QxWFeb84MJ5O6E"
 
@@ -39,8 +40,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     full_prompt = f"{SYSTEM_INSTRUCTION}\n\nইউজার প্রশ্ন করেছেন: {user_text}\nউত্তর:"
     
     try:
+        # জেমিনির সঠিক মডেল নেম দিয়ে এপিআই কল করা হচ্ছে
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model='gemini-1.5-flash',
             contents=full_prompt,
         )
         if response and response.text:
@@ -48,14 +50,13 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             await update.message.reply_text("দুঃখিত, এই মুহূর্তে কোনো উত্তর পাওয়া যায়নি।")
     except Exception as e:
-        print(f"AI Error: {e}")
-        await update.message.reply_text("দুঃখিত, এই মুহূর্তে উত্তর দিতে সমস্যা হচ্ছে। একটু পর আবার চেষ্টা করুন।")
+        # রেন্ডার লগে আসল এরর প্রিন্ট করার ব্যবস্থা, যাতে ভবিষ্যতে ধরতে সুবিধা হয়
+        print(f"AI Error Details: {e}")
+        await update.message.reply_text(f"দুঃখিত, টেকনিক্যাল সমস্যার কারণে উত্তর দিতে পারছি না।")
 
 async def main():
-    # ফ্রিতে পোর্ট চালু করার জন্য ওয়েব সার্ভার স্টার্ট করা
     await start_web_server()
 
-    # টেলিগ্রাম বটের কাজ
     app = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
     
     app.add_handler(CommandHandler("start", start))
