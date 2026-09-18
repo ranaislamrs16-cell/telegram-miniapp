@@ -3,10 +3,7 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
 from google import genai
 
-# নতুন জেমিনি ক্লায়েন্ট সেটআপ
 client = genai.Client(api_key="AQ.Ab8RN6LAY2E20xSQ4w_RfvgKyrmZ6UXZewMMRnnTJHvmI-PATA")
-
-# BotFather থেকে পাওয়া Telegram Bot Token
 TELEGRAM_BOT_TOKEN = "8850565414:AAE7iqrTaRma-Lqxfcwe5QxWFeb84MJ5O6E"
 
 SYSTEM_INSTRUCTION = """
