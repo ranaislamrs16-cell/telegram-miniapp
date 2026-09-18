@@ -1,3 +1,4 @@
+import asyncio
 import logging
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
@@ -28,11 +29,23 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.message.reply_text("দুঃখিত, এই মুহূর্তে উত্তর দিতে সমস্যা হচ্ছে। একটু পর আবার চেষ্টা করুন।")
 
-def main():
+async def main():
     app = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle_message))
-    app.run_polling()
+    
+    # Render-এর লেটেস্ট পাইথনের জন্য নিরাপদ এসিনক্রোনাস স্টার্টিং
+    await app.initialize()
+    await app.start()
+    await app.updater.start_polling()
+    
+    # বট যেন বন্ধ না হয়ে সচল থাকে
+    stop_signal = asyncio.Event()
+    await stop_signal.wait()
 
 if __name__ == '__main__':
-    main()
+    try:
+        asyncio.run(main())
+    except RuntimeError:
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(main())
