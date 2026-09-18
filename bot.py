@@ -1,3 +1,4 @@
+import asyncio
 import logging
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
@@ -33,7 +34,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         print(f"AI Error: {e}")
         await update.message.reply_text("দুঃখিত, এই মুহূর্তে উত্তর দিতে সমস্যা হচ্ছে। একটু পর আবার চেষ্টা করুন।")
 
-def main():
+async def main():
     # Application তৈরি
     app = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
     
@@ -41,8 +42,14 @@ def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle_message))
     
-    # সরাসরি পোলিং শুরু করা (কোনো থ্রেড বা জটিল লুপ ছাড়া)
-    app.run_polling()
+    # সঠিকভাবে অ্যাসিনক্রোনাস পোলিং শুরু করা
+    await app.initialize()
+    await app.start()
+    await app.updater.start_polling()
+    
+    # বোট চালু রাখার জন্য ইনফিনিট লুপ
+    stop_signal = asyncio.Event()
+    await stop_signal.wait()
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
