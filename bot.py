@@ -1,11 +1,22 @@
-
 import asyncio
 import logging
+from threading import Thread
+from flask import Flask
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
 from google import genai
 
-# আধুনিক এবং সঠিক জেমিনি ক্লায়েন্ট সেটআপ
+# রেন্ডারের পোর্ট সন্তুষ্ট করার জন্য ছোট ফ্লাস্ক সার্ভার
+app_web = Flask('')
+
+@app_web.route('/')
+def home():
+    return "RS AI Support Bot is running live!"
+
+def run_web():
+    app_web.run(host='0.0.0.0', port=8080)
+
+# জেমিনি এবং টেলিগ্রাম কনফিগারেশন
 client = genai.Client(api_key="AQ.Ab8RN6LAY2E20xSQ4w_RfvgKyrmZ6UXZewMMRnnTJHvmI-PATA")
 TELEGRAM_BOT_TOKEN = "8850565414:AAE7iqrTaRma-Lqxfcwe5QxWFeb84MJ5O6E"
 
@@ -36,6 +47,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("দুঃখিত, এই মুহূর্তে উত্তর দিতে সমস্যা হচ্ছে। একটু পর আবার চেষ্টা করুন।")
 
 async def main():
+    # ফ্লাস্ক সার্ভার আলাদা থ্রেডে চালু করা হলো
+    t = Thread(target=run_web)
+    t.start()
+
     app = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle_message))
