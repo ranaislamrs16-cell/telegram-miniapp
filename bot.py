@@ -2,9 +2,14 @@ import asyncio
 import logging
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
-from google import genai
+import google.generativeai as genai
 
-client = genai.Client(api_key="AQ.Ab8RN6LAY2E20xSQ4w_RfvgKyrmZ6UXZewMMRnnTJHvmI-PATA")
+# আপনার জেমিনি এপিআই কি কনফিগারেশন
+GEMINI_API_KEY = "AQ.Ab8RN6LAY2E20xSQ4w_RfvgKyrmZ6UXZewMMRnnTJHvmI-PATA"
+genai.configure(api_key=GEMINI_API_KEY)
+model = genai.GenerativeModel('gemini-1.5-flash')
+
+# টেলিগ্রাম বট টোকেন
 TELEGRAM_BOT_TOKEN = "8850565414:AAE7iqrTaRma-Lqxfcwe5QxWFeb84MJ5O6E"
 
 SYSTEM_INSTRUCTION = """
@@ -21,12 +26,15 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     full_prompt = f"{SYSTEM_INSTRUCTION}\n\nইউজার প্রশ্ন করেছেন: {user_text}\nউত্তর:"
     
     try:
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=full_prompt,
-        )
-        await update.message.reply_text(response.text)
+        # জেমিনি থেকে রেসপন্স আনার নিরাপদ পদ্ধতি
+        response = model.generate_content(full_prompt)
+        if response and response.text:
+            await update.message.reply_text(response.text)
+        else:
+            await update.message.reply_text("দুঃখিত, এই মুহূর্তে জেমিনি থেকে কোনো উত্তর পাওয়া যায়নি।")
     except Exception as e:
+        # আসল এররটি কি তা দেখার জন্য টার্মিনালে প্রিন্ট করবে
+        print(f"AI Error: {e}")
         await update.message.reply_text("দুঃখিত, এই মুহূর্তে উত্তর দিতে সমস্যা হচ্ছে। একটু পর আবার চেষ্টা করুন।")
 
 async def main():
@@ -34,12 +42,10 @@ async def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle_message))
     
-    # Render-এর লেটেস্ট পাইথনের জন্য নিরাপদ এসিনক্রোনাস স্টার্টিং
     await app.initialize()
     await app.start()
     await app.updater.start_polling()
     
-    # বট যেন বন্ধ না হয়ে সচল থাকে
     stop_signal = asyncio.Event()
     await stop_signal.wait()
 
