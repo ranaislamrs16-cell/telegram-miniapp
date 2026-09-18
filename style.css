@@ -1,0 +1,109 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #121212;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 420px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #1a1a1a;
+  position: relative;
+}
+
+.screen {
+  display: none;
+  flex-grow: 1;
+}
+
+.screen.active {
+  display: block;
+}
+
+.profile-card, .quick-wallet, .ref-box, .history-box {
+  background: #282828;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.balance-box {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.balance-box h1 {
+  font-size: 36px;
+  color: #00ff88;
+}
+
+.action-btns button, .pay-btn {
+  background: #0088cc;
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  margin: 8px 5px 0 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.pay-btn.bkash { background-color: #e2136e; }
+.pay-btn.nagad { background-color: #f7921e; }
+
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  background: #242424;
+  padding: 12px;
+  border-radius: 15px;
+  position: sticky;
+  bottom: 0;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nav-btn.active, .nav-btn:hover {
+  color: #00ff88;
+}
+
+.leaderboard-list {
+  list-style: none;
+  margin-top: 10px;
+}
+
+.leaderboard-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: #202020;
+  margin-bottom: 5px;
+  border-radius: 6px;
+}
+
+.pending-status {
+  color: #ffaa00;
+  margin-top: 10px;
+}
