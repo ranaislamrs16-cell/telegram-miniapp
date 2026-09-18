@@ -25,7 +25,7 @@
             max-width: 480px;
             height: 100vh;
             max-height: 900px;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
@@ -92,39 +92,41 @@
             margin-bottom: 15px;
         }
         .tap-coin-btn {
-            width: 130px;
-            height: 130px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             background: radial-gradient(circle, #f59e0b, #b45309);
-            border: 4px solid #fde047;
-            box-shadow: 0 0 25px rgba(245, 158, 11, 0.7), inset 0 0 15px rgba(255,255,255,0.4);
+            border: 5px solid #fde047;
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.7), inset 0 0 20px rgba(255,255,255,0.4);
             margin: 15px auto;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 32px;
+            font-size: 34px;
             font-weight: bold;
             color: #ffffff;
             text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-            transition: transform 0.08s ease;
+            transition: transform 0.05s ease;
             position: relative;
+            user-select: none;
         }
         .tap-coin-btn:active {
-            transform: scale(0.90);
+            transform: scale(0.92);
         }
-        /* Floating Animation for Tapping */
+        /* Hamster Style Floating Animation */
         .floating-num {
             position: absolute;
             color: #4ade80;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 22px;
             pointer-events: none;
-            animation: floatUp 0.8s ease-out forwards;
+            user-select: none;
+            animation: floatAway 0.7s ease-out forwards;
         }
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-60px) scale(1.3); }
+        @keyframes floatAway {
+            0% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--rand-x), -70px) scale(1.4); }
         }
         /* Buttons */
         .btn-primary {
@@ -145,25 +147,54 @@
             opacity: 0.9;
             transform: translateY(-2px);
         }
-        /* Grid Cards for Deposit/Withdraw */
-        .grid-cards {
+        /* Casino Wallet Grid */
+        .wallet-header-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .wallet-action-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
-            margin-top: 10px;
+            margin-bottom: 12px;
         }
-        .amount-card {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .action-card-btn {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.4));
+            border: 1px solid #10b981;
+            color: #34d399;
             padding: 12px;
             border-radius: 12px;
-            text-align: center;
+            font-weight: bold;
             cursor: pointer;
+            text-align: center;
             transition: 0.2s;
         }
-        .amount-card:hover {
-            background: rgba(99, 102, 241, 0.2);
-            border-color: #6366f1;
+        .action-card-btn.withdraw {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(185, 28, 28, 0.4));
+            border-color: #ef4444;
+            color: #f87171;
+        }
+        .action-card-btn:hover {
+            opacity: 0.85;
+            transform: translateY(-2px);
+        }
+        /* Security & Settings list */
+        .security-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         /* Podiums for Top 3 */
         .podium-container {
@@ -254,109 +285,118 @@
                 <div class="coin-display" id="coinCount">0 $RS</div>
                 <div class="taka-value" id="takaValue">≈ ৳0.00 টাকা</div>
                 
-                <!-- ছোট ও প্রিমিয়াম ট্যাপ কয়েন -->
+                <!-- হ্যামস্টার স্টাইল ট্যাপ কয়েন -->
                 <div class="tap-coin-btn" onclick="tapCoin(event)">RS</div>
-                <p style="font-size: 11px; color: #cbd5e1;">ট্যাপ করে $RS টোকেন আর্ন করুন!</p>
+                <p style="font-size: 11px; color: #cbd5e1;">ট্যাপ করে কয়েন আর্ন করুন!</p>
             </div>
 
-            <!-- ডেইলি রিওয়ার্ড ও অ্যাড আর্নিং (প্রতি অ্যাড ১২০ টাকা ভ্যালুর টোকেন) -->
+            <!-- ডেইলি রিওয়ার্ড ও অ্যাড আর্নিং -->
             <div class="card" style="text-align: left; padding: 14px;">
                 <h3 style="font-size: 14px; margin-bottom: 6px; color: #38bdf8;">🎁 ডেইলি চেক-ইন রিওয়ার্ড</h3>
-                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">প্রতিদিন পান ১০০ $RS টোকেন ফ্রি।</p>
-                <button class="btn-primary" onclick="claimDaily()">ডেইলি রিওয়ার্ড ক্লেইম (+100 $RS)</button>
+                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">প্রতিদিন চেক-ইন করে পান ১০০ $RS টোকেন।</p>
+                <button class="btn-primary" onclick="claimDaily()">ডেইলি রিওয়ার্ড ক্লেইম (+100)</button>
             </div>
 
             <div class="card" style="text-align: left; padding: 14px;">
-                <h3 style="font-size: 14px; margin-bottom: 6px; color: #fbbf24;">📺 অ্যাড আর্নিং (৳১২০ প্রতি অ্যাড)</h3>
-                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">বিজ্ঞাপন দেখে প্রতিবারে সরাসরি ১২০ টাকা সমপরিমাণ টোকেন আয় করুন।</p>
-                <button class="btn-primary" style="background: linear-gradient(135deg, #d97706, #f59e0b);" onclick="watchAd()">অ্যাড দেখুন (+৳১২০ সমপরিমাণ টোকেন)</button>
+                <h3 style="font-size: 14px; margin-bottom: 6px; color: #fbbf24;">📺 অ্যাড আর্নিং</h3>
+                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">সংক্ষিপ্ত বিজ্ঞাপন দেখে বোনাস কয়েন অর্জন করুন।</p>
+                <button class="btn-primary" style="background: linear-gradient(135deg, #d97706, #f59e0b);" onclick="watchAd()">অ্যাড দেখুন (+1,000 $RS)</button>
             </div>
         </div>
 
         <!-- ২. রেফারেল স্ক্রিন (Referral Tab) -->
         <div id="referral" class="tab-content">
             <div class="card" style="text-align: left;">
-                <h3 style="margin-bottom: 8px; color: #f472b6; font-size: 15px;">👥 রেফারেল & শেয়ার</h3>
-                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;">বন্ধুদের ইনভাইট করুন এবং প্রতি রেফারে পান ৫০০ $RS টোকেন!</p>
+                <h3 style="margin-bottom: 8px; color: #f472b6; font-size: 15px;">👥 রেফারেল সিস্টেম</h3>
+                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;">বন্ধুদের ইনভাইট করুন এবং প্রতি রেফারে ৫০০০ $RS টোকেন ফ্রি পান!</p>
                 <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; font-size: 11px; word-break: break-all; margin-bottom: 12px; border: 1px dashed rgba(255,255,255,0.2);">
                     https://t.me/RS_Crypto_Bot?start=ref12345
                 </div>
-                <button class="btn-primary" onclick="alert('রেফারেল লিংক কপি করা হয়েছে!')">লিংক কপি করুন</button>
+                <button class="btn-primary" onclick="alert('রেফারেল লিংক সফলভাবে কপি করা হয়েছে!')">লিংক কপি করুন</button>
             </div>
         </div>
 
-        <!-- ৩. র‍্যাংক স্ক্রিন (Rank Tab - Top 3 Podium & Live List) -->
+        <!-- ৩. র‍্যাংক স্ক্রিন (Rank Tab - Podiums & Expanded Demo Users) -->
         <div id="rank" class="tab-content">
-            <h3 style="margin-bottom: 12px; color: #fbbf24; font-size: 16px; text-align: center;">🏆 লিডারবোর্ড & র‍্যাঙ্কিং</h3>
+            <h3 style="margin-bottom: 12px; color: #fbbf24; font-size: 16px; text-align: center;">🏆 গ্লোবাল লিডারবোর্ড</h3>
             
             <!-- Podium Top 3 -->
             <div class="podium-container">
                 <div class="podium-box">
                     <div style="font-size: 18px;">🥈</div>
-                    <div style="font-size: 12px; font-weight: bold; margin: 4px 0;">রহিম</div>
-                    <div style="font-size: 10px; color: #facc15;" id="rank2Score">৩৫,০০০ $RS</div>
+                    <div style="font-size: 12px; font-weight: bold; margin: 4px 0;">রাশেদ</div>
+                    <div style="font-size: 10px; color: #facc15;" id="rank2Score">৮৫,০০০ $RS</div>
                 </div>
                 <div class="podium-box first">
                     <div style="font-size: 22px;">🥇</div>
                     <div style="font-size: 13px; font-weight: bold; margin: 4px 0;">সাকিব</div>
-                    <div style="font-size: 11px; color: #facc15;" id="rank1Score">৫০,০০০ $RS</div>
+                    <div style="font-size: 11px; color: #facc15;" id="rank1Score">১২০,০০০ $RS</div>
                 </div>
                 <div class="podium-box">
                     <div style="font-size: 18px;">🥉</div>
-                    <div style="font-size: 12px; font-weight: bold; margin: 4px 0;">করিম</div>
-                    <div style="font-size: 10px; color: #facc15;" id="rank3Score">২০,০০০ $RS</div>
+                    <div style="font-size: 12px; font-weight: bold; margin: 4px 0;">তানভীর</div>
+                    <div style="font-size: 10px; color: #facc15;" id="rank3Score">৬২,০০০ $RS</div>
                 </div>
             </div>
 
-            <!-- 4 to 20 Ranks List -->
+            <!-- Extended Demo List (Up to Rank 20) -->
             <div id="dynamicRankList">
-                <div class="list-item">
-                    <span>#৪ জনি</span>
-                    <span style="color: #facc15; font-weight: bold;">১৫,০০০ $RS</span>
-                </div>
-                <div class="list-item">
-                    <span>#৫ ফাহিম</span>
-                    <span style="color: #facc15; font-weight: bold;">১২,৫০০ $RS</span>
-                </div>
-                <div class="list-item" style="border: 1px solid #38bdf8; background: rgba(56, 189, 248, 0.1);">
-                    <span>#৬ আপনি (ইউজার)</span>
-                    <span style="color: #38bdf8; font-weight: bold;" id="myRankScore">0 $RS</span>
-                </div>
+                <div class="list-item"><span>#৪ ইমরান হোসেন</span><span style="color: #facc15; font-weight: bold;">৪৫,০০০ $RS</span></div>
+                <div class="list-item"><span>#৫ নাজমুল ইসলাম</span><span style="color: #facc15; font-weight: bold;">৩৮,২০০ $RS</span></div>
+                <div class="list-item" style="border: 1px solid #38bdf8; background: rgba(56, 189, 248, 0.1);"><span>#৬ আপনি (ইউজার)</span><span style="color: #38bdf8; font-weight: bold;" id="myRankScore">0 $RS</span></div>
+                <div class="list-item"><span>#৭ হাসান মাহমুদ</span><span style="color: #facc15; font-weight: bold;">২৫,১০০ $RS</span></div>
+                <div class="list-item"><span>#৮ আরিফ হোসাইন</span><span style="color: #facc15; font-weight: bold;">১৯,৪০০ $RS</span></div>
+                <div class="list-item"><span>#৯ রিয়াদুল ইসলাম</span><span style="color: #facc15; font-weight: bold;">১৫,৮০০ $RS</span></div>
+                <div class="list-item"><span>#১০ শাওন আহমেদ</span><span style="color: #facc15; font-weight: bold;">১২,৩০০ $RS</span></div>
+                <div class="list-item"><span>#১১ সাব্বির রহমান</span><span style="color: #facc15; font-weight: bold;">১০,০০০ $RS</span></div>
+                <div class="list-item"><span>#১২ জুয়েল রানা</span><span style="color: #facc15; font-weight: bold;">৮,৫০০ $RS</span></div>
             </div>
         </div>
 
         <!-- ৪. সাপোর্ট স্ক্রিন (Support Tab) -->
         <div id="support" class="tab-content">
             <div class="card">
-                <h3 style="color: #a78bfa; margin-bottom: 8px; font-size: 15px;">🤖 AI ব্যাকএন্ড সাপোর্ট</h3>
-                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">টোকেন, ডিপোজিট বা উইথড্র সংক্রান্ত যেকোনো প্রশ্ন করতে আমাদের এআই সাপোর্টে চলে যান।</p>
+                <h3 style="color: #a78bfa; margin-bottom: 8px; font-size: 15px;">🤖 এআই সাপোর্ট সিস্টেম</h3>
+                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">আপনার যেকোনো অ্যাকাউন্টের সমস্যা বা তথ্যের জন্য আমাদের অফিসিয়াল বটে যোগাযোগ করুন।</p>
                 <button class="btn-primary" onclick="window.open('https://t.me/RS_Crypto_Bot', '_blank')">বটে মেসেজ করুন</button>
             </div>
         </div>
 
-        <!-- ৫. মাই অ্যাকাউন্ট ও ওয়ালেট স্ক্রিন (Account & Wallet Tab) -->
+        <!-- ৫. ক্যাসিনো স্টাইল "মাই অ্যাকাউন্ট" ও ওয়ালেট স্ক্রিন -->
         <div id="wallet" class="tab-content">
             <div class="card" style="text-align: left; padding: 14px;">
-                <h3 style="margin-bottom: 6px; color: #34d399; font-size: 15px;">💳 মাই অ্যাকাউন্ট ওয়ালেট</h3>
-                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">আপনার মোট ব্যালেন্স: <span id="walletBalance" style="color: #facc15; font-weight: bold;">0 $RS</span></p>
-                <p style="font-size: 12px; color: #38bdf8; margin-bottom: 15px;">টাকা ভ্যালু: <span id="walletTaka" style="font-weight: bold;">৳0.00</span></p>
+                <h3 style="margin-bottom: 10px; color: #34d399; font-size: 15px;">💳 মাই অ্যাকাউন্ট ড্যাশবোর্ড</h3>
                 
-                <h4 style="font-size: 13px; color: #cbd5e1; margin-bottom: 5px;">ডিপোজিট করুন (প্রথম ডিপোজিটে ৩০% বোনাস!)</h4>
-                <div class="grid-cards">
-                    <div class="amount-card" onclick="alert('বিকাশ/নগদ ডিপোজিট ৩৫০ টাকা সিলেক্ট হয়েছে')">৳৩০০ - ৩৫০ টাকা</div>
-                    <div class="amount-card" onclick="alert('বিকাশ/নগদ ডিপোজিট ১০০০ টাকা সিলেক্ট হয়েছে')">৳১,০০০ টাকা</div>
-                    <div class="amount-card" onclick="alert('বিকাশ/নগদ ডিপোজিট ৫০০০ টাকা সিলেক্ট হয়েছে')">৳৫,০০০ টাকা</div>
-                    <div class="amount-card" onclick="alert('বিকাশ/নগদ ডিপোজিট ১০০০০ টাকা সিলেক্ট হয়েছে')">৳১০,০০০ টাকা</div>
+                <!-- Casino Header Style Balance Box -->
+                <div class="wallet-header-box">
+                    <div>
+                        <div style="font-size: 11px; color: #94a3b8;">টোটাল ব্যালেন্স</div>
+                        <div id="walletBalance" style="font-size: 18px; font-weight: bold; color: #facc15;">0 $RS</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 11px; color: #94a3b8;">টাকা ভ্যালু</div>
+                        <div id="walletTaka" style="font-size: 16px; font-weight: bold; color: #38bdf8;">৳0.00</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="card" style="text-align: left; padding: 14px;">
-                <h4 style="font-size: 13px; color: #cbd5e1; margin-bottom: 8px;">উইথড্রল কার্ড সিস্টেম</h4>
-                <div class="grid-cards">
-                    <div class="amount-card" onclick="alert('৫০০ টাকা উইথড্র রিকোয়েস্ট তৈরি হয়েছে')">৳৫০০</div>
-                    <div class="amount-card" onclick="alert('১০০০ টাকা উইথড্র রিকোয়েস্ট তৈরি হয়েছে')">৳১,০০০</div>
-                    <div class="amount-card" onclick="alert('৫০০০ টাকা উইথড্র রিকোয়েস্ট তৈরি হয়েছে')">৳৫,০০০</div>
-                    <div class="amount-card" onclick="alert('২৫০০০ টাকা উইথড্র রিকোয়েস্ট তৈরি হয়েছে')">৳২৫,০০০</div>
+                <!-- Deposit & Withdraw Popup Action Grid -->
+                <div class="wallet-action-grid">
+                    <button class="action-card-btn" onclick="alert('ডিপোজিট উইন্ডো: বিকাশ/নগদ পেমেন্ট গেটওয়ে শীঘ্রই যুক্ত হবে।')">➕ ডিপোজিট</button>
+                    <button class="action-card-btn withdraw" onclick="alert('উইথড্রল উইন্ডো: আপনার রিকোয়েস্ট প্রসেস করতে পেমেন্ট নম্বর দিন।')">➖ উইথড্র</button>
+                </div>
+
+                <h4 style="font-size: 13px; color: #cbd5e1; margin: 15px 0 8px 0;">🔒 অ্যাকাউন্ট সিকিউরিটি ও সেটিংস</h4>
+                <div class="security-item">
+                    <span>প্রোফাইল ভেরিফিকেশন</span>
+                    <span style="color: #34d399; font-weight: bold;">ভেরিফাইয়েড ✓</span>
+                </div>
+                <div class="security-item">
+                    <span>টেলিগ্রাম আইডি</span>
+                    <span style="color: #cbd5e1;">@User_Account</span>
+                </div>
+                <div class="security-item">
+                    <span>সিকিউরিটি পিন</span>
+                    <span style="color: #38bdf8; cursor: pointer;" onclick="alert('পিন সেটআপ অপশন চালু আছে')">পরিবর্তন করুন</span>
                 </div>
             </div>
         </div>
@@ -384,22 +424,29 @@
 </div>
 
 <script>
-    let coins = 0;
+    // LocalStorage থেকে কয়েন লোড করা যাতে রিলোড বা বের হয়ে গেলে ডিলিট না হয়
+    let coins = parseInt(localStorage.getItem('rs_coins')) || 0;
 
-    // টোকেন থেকে টাকার হিসাব: ১,০০,০০,০০০ (টেন মিলিয়ন) টোকেন = ১০০ টাকা (অথবা ১ লাখ টোকেন = ১ টাকা)
     function updateDisplay() {
         document.getElementById('coinCount').innerText = coins.toLocaleString() + ' $RS';
-        let taka = (coins / 100000) * 1; 
+        let taka = (coins / 100000) * 1; // টোকেন কনভার্শন রেট
         document.getElementById('takaValue').innerText = '≈ ৳' + taka.toFixed(2) + ' টাকা';
         document.getElementById('myRankScore').innerText = coins.toLocaleString() + ' $RS';
         document.getElementById('walletBalance').innerText = coins.toLocaleString() + ' $RS';
         document.getElementById('walletTaka').innerText = '৳' + taka.toFixed(2);
+        
+        // ব্রাউজারে সেভ করে রাখা
+        localStorage.setItem('rs_coins', coins);
     }
+
+    // পেজ লোড হওয়ার সাথে সাথে ব্যালেন্স আপডেট করা
+    updateDisplay();
 
     function tapCoin(event) {
         coins += 1;
         updateDisplay();
 
+        // হ্যামস্টার স্টাইল রেন্ডম ফ্লোটিং অ্যানিমেশন
         const card = document.getElementById('tapCard');
         const num = document.createElement('div');
         num.className = 'floating-num';
@@ -409,13 +456,17 @@
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
         
+        // চারপাশের রেন্ডম পজিশনে ছড়িয়ে পড়ার জন্য
+        const randomX = (Math.random() - 0.5) * 80;
+        num.style.setProperty('--rand-x', randomX + 'px');
+        
         num.style.left = x + 'px';
         num.style.top = y + 'px';
         card.appendChild(num);
 
         setTimeout(() => {
             num.remove();
-        }, 800);
+        }, 700);
     }
 
     function claimDaily() {
@@ -425,11 +476,9 @@
     }
 
     function watchAd() {
-        // ১২০ টাকা সমপরিমাণ টোকেন যোগ করা (১ টাকা = ১,০০,০০০ টোকেন হিসেবে ১২০ টাকার টোকেন)
-        let adRewardCoins = 120 * 100000;
-        coins += adRewardCoins;
+        coins += 1000;
         updateDisplay();
-        alert('ধন্যবাদ! অ্যাড সফলভাবে দেখার জন্য ১২০ টাকা সমপরিমাণ $RS টোকেন যোগ করা হয়েছে।');
+        alert('ধন্যবাদ! অ্যাড দেখার জন্য ১,০০০ $RS বোনাস যোগ করা হয়েছে।');
     }
 
     function switchTab(tabId, btnElement) {
@@ -445,9 +494,9 @@
 
     // লিডারবোর্ডের ডেমো র‍্যাংক র‍্যান্ডম আপ-ডাউন অ্যানিমেশন
     setInterval(() => {
-        let r1 = 50000 + Math.floor(Math.random() * 500);
-        let r2 = 35000 + Math.floor(Math.random() * 400);
-        let r3 = 20000 + Math.floor(Math.random() * 300);
+        let r1 = 120000 + Math.floor(Math.random() * 800);
+        let r2 = 85000 + Math.floor(Math.random() * 500);
+        let r3 = 62000 + Math.floor(Math.random() * 400);
         document.getElementById('rank1Score').innerText = r1.toLocaleString() + ' $RS';
         document.getElementById('rank2Score').innerText = r2.toLocaleString() + ' $RS';
         document.getElementById('rank3Score').innerText = r3.toLocaleString() + ' $RS';
