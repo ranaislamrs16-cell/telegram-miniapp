@@ -1,24 +1,25 @@
-
 import asyncio
 import logging
 import os
-from http.server import HTTPServer, BaseHTTPRequestHandler
-from threading import Thread
+from aiohttp import web
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
 from google import genai
 
-# Render-এর পোর্ট সন্তুষ্ট করার জন্য অত্যন্ত হালকা একটি লোকাল সার্ভার
-class SimpleHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(b"RS AI Support Bot is active and running!")
+# ফ্রিতে রেন্ডারকে খুশি রাখার জন্য aiohttp দিয়ে একটি হালকা ওয়েব সার্ভার
+async def handle_web(request):
+    return web.Response(text="RS AI Support Bot is running live!")
 
-def run_http_server():
+async def start_web_server():
+    app_web = web.Application()
+    app_web.router.add_get("/", handle_web)
+    runner = web.AppRunner(app_web)
+    await runner.setup()
+    
+    # রেন্ডার থেকে পাওয়া পোর্ট অথবা ডিফল্ট ১০০০০ পোর্ট ব্যবহার করা
     port = int(os.environ.get("PORT", 10000))
-    server = HTTPServer(('0.0.0.0', port), SimpleHandler)
-    server.serve_forever()
+    site = web.TCPSite(runner, '0.0.0.0', port)
+    await site.start()
 
 # জেমিনি এবং টেলিগ্রাম কনফিগারেশন
 client = genai.Client(api_key="AQ.Ab8RN6LAY2E20xSQ4w_RfvgKyrmZ6UXZewMMRnnTJHvmI-PATA")
@@ -51,9 +52,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("দুঃখিত, এই মুহূর্তে উত্তর দিতে সমস্যা হচ্ছে। একটু পর আবার চেষ্টা করুন।")
 
 async def main():
-    # ব্যাকগ্রাউন্ডে ছোট HTTP সার্ভার চালু করা যা Render-এর পোর্ট চাহিদা পূরণ করবে
-    server_thread = Thread(target=run_http_server, daemon=True)
-    server_thread.start()
+    # ফ্রিতে পোর্ট চালু করার জন্য ওয়েব সার্ভার স্টার্ট করা
+    await start_web_server()
 
     # টেলিগ্রাম বটের কাজ
     app = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
