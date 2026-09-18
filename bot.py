@@ -1,20 +1,7 @@
-import asyncio
 import logging
-from threading import Thread
-from flask import Flask
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
 from google import genai
-
-# রেন্ডারের পোর্ট সন্তুষ্ট করার জন্য ছোট ফ্লাস্ক সার্ভার
-app_web = Flask('')
-
-@app_web.route('/')
-def home():
-    return "RS AI Support Bot is running live!"
-
-def run_web():
-    app_web.run(host='0.0.0.0', port=8080)
 
 # জেমিনি এবং টেলিগ্রাম কনফিগারেশন
 client = genai.Client(api_key="AQ.Ab8RN6LAY2E20xSQ4w_RfvgKyrmZ6UXZewMMRnnTJHvmI-PATA")
@@ -46,25 +33,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         print(f"AI Error: {e}")
         await update.message.reply_text("দুঃখিত, এই মুহূর্তে উত্তর দিতে সমস্যা হচ্ছে। একটু পর আবার চেষ্টা করুন।")
 
-async def main():
-    # ফ্লাস্ক সার্ভার আলাদা থ্রেডে চালু করা হলো
-    t = Thread(target=run_web)
-    t.start()
-
+def main():
+    # Application তৈরি
     app = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
+    
+    # হ্যান্ডলার যুক্ত করা
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle_message))
     
-    await app.initialize()
-    await app.start()
-    await app.updater.start_polling()
-    
-    stop_signal = asyncio.Event()
-    await stop_signal.wait()
+    # সরাসরি পোলিং শুরু করা (কোনো থ্রেড বা জটিল লুপ ছাড়া)
+    app.run_polling()
 
 if __name__ == '__main__':
-    try:
-        asyncio.run(main())
-    except RuntimeError:
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(main())
+    main()
