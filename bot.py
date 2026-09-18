@@ -1,15 +1,12 @@
+
 import asyncio
 import logging
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
-import google.generativeai as genai
+from google import genai
 
-# আপনার জেমিনি এপিআই কি কনফিগারেশন
-GEMINI_API_KEY = "AQ.Ab8RN6LAY2E20xSQ4w_RfvgKyrmZ6UXZewMMRnnTJHvmI-PATA"
-genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
-
-# টেলিগ্রাম বট টোকেন
+# আধুনিক এবং সঠিক জেমিনি ক্লায়েন্ট সেটআপ
+client = genai.Client(api_key="AQ.Ab8RN6LAY2E20xSQ4w_RfvgKyrmZ6UXZewMMRnnTJHvmI-PATA")
 TELEGRAM_BOT_TOKEN = "8850565414:AAE7iqrTaRma-Lqxfcwe5QxWFeb84MJ5O6E"
 
 SYSTEM_INSTRUCTION = """
@@ -26,14 +23,15 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     full_prompt = f"{SYSTEM_INSTRUCTION}\n\nইউজার প্রশ্ন করেছেন: {user_text}\nউত্তর:"
     
     try:
-        # জেমিনি থেকে রেসপন্স আনার নিরাপদ পদ্ধতি
-        response = model.generate_content(full_prompt)
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=full_prompt,
+        )
         if response and response.text:
             await update.message.reply_text(response.text)
         else:
-            await update.message.reply_text("দুঃখিত, এই মুহূর্তে জেমিনি থেকে কোনো উত্তর পাওয়া যায়নি।")
+            await update.message.reply_text("দুঃখিত, এই মুহূর্তে কোনো উত্তর পাওয়া যায়নি।")
     except Exception as e:
-        # আসল এররটি কি তা দেখার জন্য টার্মিনালে প্রিন্ট করবে
         print(f"AI Error: {e}")
         await update.message.reply_text("দুঃখিত, এই মুহূর্তে উত্তর দিতে সমস্যা হচ্ছে। একটু পর আবার চেষ্টা করুন।")
 
