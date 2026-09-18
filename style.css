@@ -1,109 +1,183 @@
 * {
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-  background-color: #121212;
-  color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+    background-color: #0f172a;
+    color: #f8fafc;
+    display: flex;
+    justify-content: center;
+    padding: 15px;
 }
 
 .app-container {
-  width: 100%;
-  max-width: 420px;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 15px;
-  background-color: #1a1a1a;
-  position: relative;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.screen {
-  display: none;
-  flex-grow: 1;
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 16px;
+    border: 1px solid #334155;
 }
 
-.screen.active {
-  display: block;
+.profile-pic {
+    font-size: 30px;
+    background: #3b82f6;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
 }
 
-.profile-card, .quick-wallet, .ref-box, .history-box {
-  background: #282828;
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 15px;
+.user-info h2 {
+    font-size: 18px;
+    color: #ffffff;
 }
 
-.balance-box {
-  text-align: center;
-  margin-top: 15px;
+.rank-badge {
+    font-size: 13px;
+    color: #38bdf8;
 }
 
-.balance-box h1 {
-  font-size: 36px;
-  color: #00ff88;
+/* Wallet Card */
+.wallet-card {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border: 1px solid #3b82f6;
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
 }
 
-.action-btns button, .pay-btn {
-  background: #0088cc;
-  border: none;
-  color: white;
-  padding: 10px 18px;
-  margin: 8px 5px 0 0;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
+.balance-title {
+    color: #94a3b8;
+    font-size: 14px;
 }
 
-.pay-btn.bkash { background-color: #e2136e; }
-.pay-btn.nagad { background-color: #f7921e; }
-
-.bottom-nav {
-  display: flex;
-  justify-content: space-around;
-  background: #242424;
-  padding: 12px;
-  border-radius: 15px;
-  position: sticky;
-  bottom: 0;
+.balance {
+    font-size: 36px;
+    color: #38bdf8;
+    margin: 10px 0;
 }
 
-.nav-btn {
-  background: none;
-  border: none;
-  color: #888;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
 }
 
-.nav-btn.active, .nav-btn:hover {
-  color: #00ff88;
+.btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.deposit-btn {
+    background: #22c55e;
+    color: white;
+}
+
+.withdraw-btn {
+    background: #3b82f6;
+    color: white;
+}
+
+/* Sections */
+.hidden-section {
+    display: none;
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 16px;
+    border: 1px solid #334155;
+}
+
+.hidden-section.active {
+    display: block;
+}
+
+.bonus-text {
+    color: #f59e0b;
+    font-size: 13px;
+    margin: 5px 0;
+}
+
+.limit-text {
+    color: #94a3b8;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: white;
+    border-radius: 8px;
+}
+
+.submit-btn {
+    width: 100%;
+    background: #3b82f6;
+    color: white;
+}
+
+/* Leaderboard */
+.leaderboard-section {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 16px;
+    border: 1px solid #334155;
+}
+
+.leaderboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.live-dot {
+    background: #ef4444;
+    color: white;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
 }
 
 .leaderboard-list {
-  list-style: none;
-  margin-top: 10px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.leaderboard-list li {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  background: #202020;
-  margin-bottom: 5px;
-  border-radius: 6px;
-}
-
-.pending-status {
-  color: #ffaa00;
-  margin-top: 10px;
-}
+.leaderboard-item {
+    display: flex;
+    justify-content: space-between;
+    background: #0f172a;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+  } 
