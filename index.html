@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -92,6 +92,15 @@
         }
         .tap-area-wrapper:active .rs-logo-img {
             transform: scale(0.93);
+        }
+        .center-rs-text {
+            position: absolute;
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+            pointer-events: none;
+            z-index: 5;
         }
 
         /* Floating Score Animation */
@@ -204,107 +213,117 @@
         <div class="counter-container">
             <h1 id="wallet-coins" class="total-coins">1,000,000</h1>
             <div class="bdt-value">৳ <span id="wallet-bdt">150</span> BDT</div>
-            <div class="rate-note">(রেট: ১ মিলিয়ন হামস্টার টোকেন = ১৫০ টাকা)</div>
+            <div class="rate-note">(Rate: 1M Hamster Tokens = 150 BDT)</div>
         </div>
 
-        <!-- Rotating Logo Tap Area -->
+        <!-- Rotating Logo Tap Area with RS text in middle -->
         <div class="tap-area-wrapper" onclick="handleTap(event)">
             <div class="rotating-ring"></div>
             <img src="1000005257.png" alt="RS Token Logo" class="rs-logo-img">
+            <span class="center-rs-text">RS Coin</span>
         </div>
 
-        <!-- Daily Check-In & Login Bonus Section (Middle) - 100 BDT reward -->
+        <!-- Daily Check-In & Login Bonus Section -->
         <div class="box-style" style="background: linear-gradient(135deg, #332200, #1a1a1a); border: 1px solid #ffd700; text-align: left;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
-                    <div style="font-weight: bold; color: #ffd700; font-size: 0.95rem;">🎁 ডেইলি চেক-ইন ও সাইনিং বোনাস</div>
-                    <div style="font-size: 0.8rem; color: #ccc;">রিওয়ার্ড: ১০০ টাকা সমপরিমাণ কয়েন</div>
+                    <div style="font-weight: bold; color: #ffd700; font-size: 0.95rem;">🎁 Daily Check-In & Signing Bonus</div>
+                    <div style="font-size: 0.8rem; color: #ccc;">Reward: 100 BDT equivalent tokens</div>
                 </div>
-                <button onclick="claimDailyBonus()" style="background: #ffd700; color: #000; border: none; padding: 6px 14px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">দাবি করুন</button>
+                <button onclick="claimDailyBonus()" style="background: #ffd700; color: #000; border: none; padding: 6px 14px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Claim</button>
             </div>
         </div>
 
-        <!-- Multi-Option Ad Earning Section (600 to 1000 BDT equivalent value) -->
+        <!-- Multi-Option Ad Earning Section -->
         <div class="box-style" style="text-align: left; margin-bottom: 0;">
-            <h4 style="margin: 0 0 10px 0; color: #ff4b2b;">🔥 অ্যাড আর্নিং সিস্টেম (টাস্ক সিরিজ)</h4>
+            <h4 style="margin: 0 0 10px 0; color: #ff4b2b;">🔥 Ad Earning Tasks</h4>
             <div style="display: flex; justify-content: space-between; margin-bottom: 6px; padding: 7px; background: #222; border-radius: 5px; font-size: 0.85rem;">
-                <span>১. ডেইলি ভিডিও অ্যাড টাস্ক</span>
-                <span style="color: #4CAF50; cursor: pointer; font-weight: bold;" onclick="openAdTask(1)">+৬০০ টাকা কয়েন</span>
+                <span>1. Daily Video Ad Task</span>
+                <span style="color: #4CAF50; cursor: pointer; font-weight: bold;" onclick="openAdTask(1)">+600 BDT Tokens</span>
             </div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 6px; padding: 7px; background: #222; border-radius: 5px; font-size: 0.85rem;">
-                <span>২. স্পন্সরড ভিজিট অ্যাড</span>
-                <span style="color: #ff4b2b; cursor: pointer; font-weight: bold;" onclick="openAdTask(2)">+৭৫০ টাকা কয়েন</span>
+                <span>2. Sponsored Visit Ad</span>
+                <span style="color: #ff4b2b; cursor: pointer; font-weight: bold;" onclick="openAdTask(2)">+750 BDT Tokens</span>
             </div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 6px; padding: 7px; background: #222; border-radius: 5px; font-size: 0.85rem;">
-                <span>৩. প্রিমিয়াম অফারওয়াল অ্যাড</span>
-                <span style="color: #ffd700; cursor: pointer; font-weight: bold;" onclick="openAdTask(3)">+৯০০ টাকা কয়েন</span>
+                <span>3. Premium Offerwall Ad</span>
+                <span style="color: #ffd700; cursor: pointer; font-weight: bold;" onclick="openAdTask(3)">+900 BDT Tokens</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 7px; background: #222; border-radius: 5px; font-size: 0.85rem;">
-                <span>৪. আল্টিমেট রিওয়ার্ড অ্যাড</span>
-                <span style="color: #3498db; cursor: pointer; font-weight: bold;" onclick="openAdTask(4)">+১০০০ টাকা কয়েন</span>
+                <span>4. Ultimate Reward Ad</span>
+                <span style="color: #3498db; cursor: pointer; font-weight: bold;" onclick="openAdTask(4)">+1000 BDT Tokens</span>
             </div>
         </div>
     </div>
 
     <!-- 2. Ranking Screen -->
     <div id="ranking" class="section">
-        <header>লিডারবোর্ড র‍্যাঙ্কিং</header>
+        <header>Leaderboard Ranking</header>
         
         <!-- Free Fire Grandmaster Style Podium (Side-by-Side) -->
         <div class="podium-container" style="margin-top: 15px;">
             <div class="podium-card podium-2">
                 <div style="font-size: 1.4rem;">🥈</div>
-                <div style="font-weight: bold; font-size: 0.85rem;">মাস্টার ২</div>
-                <div style="color: #c0c0c0; font-size: 0.75rem;">৫,০০,০০০ RS</div>
+                <div style="font-weight: bold; font-size: 0.85rem;">Master II</div>
+                <div style="color: #c0c0c0; font-size: 0.75rem;">500,000 RS</div>
             </div>
             <div class="podium-card podium-1">
                 <div style="font-size: 1.7rem;">👑</div>
-                <div style="font-weight: bold; font-size: 0.9rem; color: #ffd700;">গ্র্যান্ড মাস্টার</div>
-                <div style="color: #ffd700; font-size: 0.8rem;">১০,০০,০০০ RS</div>
+                <div style="font-weight: bold; font-size: 0.9rem; color: #ffd700;">Grand Master</div>
+                <div style="color: #ffd700; font-size: 0.8rem;">1,000,000 RS</div>
             </div>
             <div class="podium-card podium-3">
                 <div style="font-size: 1.4rem;">🥉</div>
-                <div style="font-weight: bold; font-size: 0.85rem;">মাস্টার ৩</div>
-                <div style="color: #cd7f32; font-size: 0.75rem;">৩,০০,০০০ RS</div>
+                <div style="font-weight: bold; font-size: 0.85rem;">Master III</div>
+                <div style="color: #cd7f32; font-size: 0.75rem;">300,000 RS</div>
             </div>
         </div>
 
-        <h4 style="color: #888; font-size: 0.9rem; margin-top: 15px;">অন্যান্য ইউজার লিস্ট</h4>
+        <h4 style="color: #888; font-size: 0.9rem; margin-top: 15px;">Other Users List</h4>
         <div id="ranking-list"></div>
     </div>
 
-    <!-- 3. Referral Screen -->
+    <!-- 3. Referral Screen (Updated with 30-40 English names & Live Activity) -->
     <div id="referral" class="section">
-        <header>রেফারেল প্রোগ্রাম</header>
+        <header>Referral Program</header>
         <div class="box-style">
-            <p style="margin:0 0 5px 0;">আপনার রেফারেল কোড</p>
-            <h3 style="color: #ff4b2b; margin: 5px 0;">RAKIB500</h3>
-            <p style="margin:0; font-size: 0.85rem; color: #ccc;">প্রতি রেফারলে আকর্ষণীয় বোনাস!</p>
+            <p style="margin:0 0 5px 0;">Your Referral Link / Code</p>
+            <h3 style="color: #ff4b2b; margin: 5px 0;">https://t.me/RoyalCasinoBot?start=RAKIB500</h3>
+            <p style="margin:0; font-size: 0.85rem; color: #ccc;">Get 500 RS Tokens per referral!</p>
         </div>
-        <div id="referral-list"></div>
+        <h4 style="color: #ff4b2b; font-size: 0.9rem; margin: 15px 0 10px 0;">🔥 Live Referral Rewards Activity</h4>
+        <div id="referral-live-list" style="max-height: 320px; overflow-y: auto;">
+            <!-- Live updating demo referral users list will be injected here -->
+        </div>
     </div>
 
-    <!-- 4. Support Screen -->
+    <!-- 4. Support Screen (Updated with CS Representative Image, Green Tick & AI Bot Link) -->
     <div id="support" class="section">
-        <header>এআই সাপোর্ট ও কাস্টমার কেয়ার</header>
-        <div class="box-style" style="margin-top: 20px; text-align: center;">
-            <!-- Customer Service Representative Image Placeholder -->
-            <div style="width: 85px; height: 85px; margin: 0 auto 15px auto; background: #333; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.2rem; border: 2px solid #ffd700; overflow: hidden;">
-                👩‍💻
+        <header>AI Support & Customer Care</header>
+        <div class="box-style" style="margin-top: 20px; text-align: center; position: relative;">
+            <!-- Customer Service Representative Image with Green Active Tick -->
+            <div style="position: relative; width: 90px; height: 90px; margin: 0 auto 15px auto;">
+                <div style="width: 90px; height: 90px; background: #333; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; border: 2px solid #ffd700; overflow: hidden;">
+                    👩‍💻
+                </div>
+                <!-- Green Active Tick Mark -->
+                <div style="position: absolute; bottom: 2px; right: 2px; width: 20px; height: 20px; background-color: #2ecc71; border: 2px solid #1e1e1e; border-radius: 50%;" title="Online Active"></div>
             </div>
-            <h3>২৪ ঘণ্টা কাস্টমার সার্ভিস</h3>
+            
+            <h3 style="margin-bottom: 5px;">24/7 AI Customer Service</h3>
+            <p style="color: #2ecc71; font-size: 0.85rem; font-weight: bold; margin-top: 0;">● Online & Active</p>
             <p style="color: #bbb; font-size: 0.9rem; line-height: 1.5;">
-                আপনার যেকোনো সমস্যা ও তথ্যের জন্য আমাদের ডেডিকেটেড কাস্টমার কেয়ার প্রতিনিধির সাথে যোগাযোগ করুন।
+                For any issues or questions, connect instantly with our dedicated AI support bot representative.
             </p>
-            <a href="https://t.me/YourTelegramBotUsername" target="_blank" class="action-btn" style="margin-top: 15px;">সাপোর্টে মেসেজ করুন</a>
+            <a href="https://t.me/YourTelegramAIBotUsername" target="_blank" class="action-btn" style="margin-top: 15px;">Open AI Support Bot</a>
         </div>
     </div>
 
     <!-- 5. Account Screen -->
     <div id="account" class="section">
-        <header>আমার অ্যাকাউন্ট</header>
+        <header>My Account</header>
         <div style="background: linear-gradient(135deg, #2c3e50, #3498db); padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
-            <p style="margin: 0; font-size: 0.9rem; color: #d0d3d4;">টোটাল টোকেন ব্যালেন্স</p>
+            <p style="margin: 0; font-size: 0.9rem; color: #d0d3d4;">Total Token Balance</p>
             <h2 id="account-coins" style="margin: 5px 0; font-size: 1.8rem; color: #f1c40f;">1,000,000 RS</h2>
             <p style="margin: 0; font-size: 0.9rem; color: #d0d3d4;">BDT: <span id="account-bdt">150</span> BDT</p>
         </div>
@@ -313,19 +332,19 @@
     <!-- Bottom Navbar with Icons -->
     <nav>
         <button onclick="switchTab('home')" id="nav-home" class="active">
-            <span class="icon">🏠</span>হোম
+            <span class="icon">🏠</span>Home
         </button>
         <button onclick="switchTab('ranking')" id="nav-ranking">
-            <span class="icon">🏆</span>র‍্যাঙ্কিং
+            <span class="icon">🏆</span>Ranking
         </button>
         <button onclick="switchTab('referral')" id="nav-referral">
-            <span class="icon">👥</span>রেফারেল
+            <span class="icon">👥</span>Referral
         </button>
         <button onclick="switchTab('support')" id="nav-support">
-            <span class="icon">🎧</span>সাপোর্ট
+            <span class="icon">🎧</span>Support
         </button>
         <button onclick="switchTab('account')" id="nav-account">
-            <span class="icon">👤</span>অ্যাকাউন্ট
+            <span class="icon">👤</span>Account
         </button>
     </nav>
 
@@ -340,7 +359,7 @@
         document.getElementById('nav-' + tabId).classList.add('active');
     }
 
-    let currentCoins = 1000000; // Starting with 1M tokens
+    let currentCoins = 1000000;
     
     function handleTap(event) {
         const coinValues = [1000, 2000, 3000, 5000, 8000, 10000];
@@ -366,8 +385,6 @@
 
     function updateWallet() {
         document.getElementById('wallet-coins').innerText = currentCoins.toLocaleString();
-        
-        // Rate: 1,000,000 tokens = 150 BDT -> 1 token = 150 / 1,000,000 BDT
         let bdtAmount = Math.floor((currentCoins * 150) / 1000000); 
         document.getElementById('wallet-bdt').innerText = bdtAmount.toLocaleString();
         
@@ -378,35 +395,66 @@
     }
 
     function claimDailyBonus() {
-        // 100 BDT equivalent tokens calculation based on rate (150 BDT = 1M tokens -> 100 BDT = ~666,666 tokens)
         let bonusCoins = 666666;
         currentCoins += bonusCoins;
         updateWallet();
-        alert("অভিনندس! আজকের সাইনিং ও ডেইলি চেক-ইন বোনাস সফলভাবে ক্লেইম করা হয়েছে (+১০০ টাকা সমপরিমাণ টোকেন যোগ হয়েছে)।");
+        alert("Congratulations! Daily check-in and signing bonus successfully claimed (+100 BDT equivalent tokens added).");
     }
 
     function openAdTask(adNo) {
-        // Rewarding 600 to 1000 BDT equivalent tokens
-        // BDT to Token conversion: Token = (BDT * 1000000) / 150
         const bdtRewards = [600, 750, 900, 1000];
         let bdtEarned = bdtRewards[adNo - 1];
         let tokenEarned = Math.floor((bdtEarned * 1000000) / 150);
         
         currentCoins += tokenEarned;
         updateWallet();
-        alert(`সফলভাবে অ্যাড #${adNo} দেখা সম্পন্ন হয়েছে! +${bdtEarned} টাকা সমপরিমাণ কয়েন যোগ হয়েছে।`);
+        alert(`Successfully completed Ad #${adNo}! +${bdtEarned} BDT equivalent coins added.`);
     }
 
+    // 60 Ranking Users with English Names
     const rankingList = document.getElementById('ranking-list');
+    const englishNames = [
+        "Alex", "David", "John", "Michael", "Robert", "William", "James", "Richard", "Thomas", "Charles",
+        "Daniel", "Matthew", "Anthony", "Mark", "Donald", "Steven", "Paul", "Andrew", "Joshua", "Kenneth",
+        "Kevin", "Brian", "George", "Timothy", "Ronald", "Edward", "Jason", "Jeffrey", "Ryan", "Jacob",
+        "Gary", "Nicholas", "Eric", "Jonathan", "Stephen", "Larry", "Justin", "Scott", "Brandon", "Benjamin",
+        "Samuel", "Frank", "Gregory", "Raymond", "Alexander", "Patrick", "Jack", "Dennis", "Jerry", "Tyler",
+        "Aaron", "Jose", "Adam", "Nathan", "Henry", "Douglas", "Zachary", "Peter", "Kyle", "Ethan"
+    ];
+
     for (let i = 4; i <= 60; i++) {
         let dummyCoins = Math.max(50000, 300000 - (i * 3500));
+        let userName = englishNames[(i - 4) % englishNames.length] + "_" + i;
         rankingList.innerHTML += `
             <div class="ranking-card">
-                <span>${i}. ইউজার_${i}</span>
+                <span>${i}. User_${userName}</span>
                 <span style="color: #ffd700;">${dummyCoins.toLocaleString()} RS</span>
             </div>
         `;
     }
+
+    // 35-40 Referral Live Activity List with English Names
+    const referralLiveList = document.getElementById('referral-live-list');
+    const refNames = [
+        "Liam", "Noah", "Oliver", "Elijah", "James", "William", "Benjamin", "Lucas", "Henry", "Theodore",
+        "Jack", "Levi", "Alexander", "Mateo", "Daniel", "Michael", "Mason", "Sebastian", "Ethan", "Logan",
+        "Owen", "Samuel", "Jacob", "Asher", "Aiden", "John", "Joseph", "Wyatt", "David", "Leo",
+        "Luke", "Julian", "Grayson", "Isaac", "Jayden", "Theodore", "Gabriel", "Julian", "Anthony", "Dylan"
+    ];
+
+    function loadReferralList() {
+        referralLiveList.innerHTML = "";
+        for (let i = 1; i <= 38; i++) {
+            let rName = refNames[(i - 1) % refNames.length];
+            referralLiveList.innerHTML += `
+                <div class="ranking-card" style="padding: 10px 12px; margin-bottom: 6px; background: #252525;">
+                    <span style="font-size: 0.85rem;">${i}. <b>${rName}_Ref</b> joined via invite</span>
+                    <span style="color: #4CAF50; font-size: 0.85rem; font-weight: bold;">+500 RS Received</span>
+                </div>
+            `;
+        }
+    }
+    loadReferralList();
 </script>
 
 </body>
