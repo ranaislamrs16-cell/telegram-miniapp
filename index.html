@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -223,35 +224,35 @@
             <span class="center-rs-text">RS Coin</span>
         </div>
 
-        <!-- Daily Check-In & Login Bonus Section (24-hour lock mechanism) -->
+        <!-- Daily Check-In & Login Bonus Section (Updated to 100 RS) -->
         <div class="box-style" style="background: linear-gradient(135deg, #332200, #1a1a1a); border: 1px solid #ffd700; text-align: left;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <div style="font-weight: bold; color: #ffd700; font-size: 0.95rem;">🎁 Daily Check-In & Signing Bonus</div>
-                    <div style="font-size: 0.8rem; color: #ccc;">Reward: 100 BDT equivalent (666,666 RS)</div>
+                    <div style="font-size: 0.8rem; color: #ccc;">Reward: 100 RS</div>
                 </div>
                 <button id="daily-claim-btn" onclick="claimDailyBonus()" style="background: #ffd700; color: #000; border: none; padding: 6px 14px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Claim</button>
             </div>
         </div>
 
-        <!-- Multi-Option Ad Earning Section -->
+        <!-- Multi-Option Ad Earning Section (Updated to 500, 700, 1000, 1200 RS) -->
         <div class="box-style" style="text-align: left; margin-bottom: 0;">
             <h4 style="margin: 0 0 10px 0; color: #ff4b2b;">🔥 Ad Earning Tasks</h4>
             <div style="display: flex; justify-content: space-between; margin-bottom: 6px; padding: 7px; background: #222; border-radius: 5px; font-size: 0.85rem;">
                 <span>1. Daily Video Ad Task</span>
-                <span style="color: #4CAF50; cursor: pointer; font-weight: bold;" onclick="openAdTask(1)">+4,000,000 RS (600 BDT)</span>
+                <span style="color: #4CAF50; cursor: pointer; font-weight: bold;" onclick="openAdTask(1)">+500 RS</span>
             </div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 6px; padding: 7px; background: #222; border-radius: 5px; font-size: 0.85rem;">
                 <span>2. Sponsored Visit Ad</span>
-                <span style="color: #ff4b2b; cursor: pointer; font-weight: bold;" onclick="openAdTask(2)">+5,000,000 RS (750 BDT)</span>
+                <span style="color: #ff4b2b; cursor: pointer; font-weight: bold;" onclick="openAdTask(2)">+700 RS</span>
             </div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 6px; padding: 7px; background: #222; border-radius: 5px; font-size: 0.85rem;">
                 <span>3. Premium Offerwall Ad</span>
-                <span style="color: #ffd700; cursor: pointer; font-weight: bold;" onclick="openAdTask(3)">+6,000,000 RS (900 BDT)</span>
+                <span style="color: #ffd700; cursor: pointer; font-weight: bold;" onclick="openAdTask(3)">+1,000 RS</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 7px; background: #222; border-radius: 5px; font-size: 0.85rem;">
                 <span>4. Ultimate Reward Ad</span>
-                <span style="color: #3498db; cursor: pointer; font-weight: bold;" onclick="openAdTask(4)">+6,666,666 RS (1000 BDT)</span>
+                <span style="color: #3498db; cursor: pointer; font-weight: bold;" onclick="openAdTask(4)">+1,200 RS</span>
             </div>
         </div>
     </div>
@@ -525,7 +526,7 @@
     checkDailyBonusStatus();
 
     function claimDailyBonus() {
-        let bonusCoins = 666666;
+        let bonusCoins = 100; // Daily reward set to 100 RS as requested
         currentCoins += bonusCoins;
         saveAndClothWallet();
         
@@ -538,17 +539,16 @@
         btn.style.cursor = "not-allowed";
         btn.disabled = true;
 
-        alert("Congratulations! Daily check-in and signing bonus successfully claimed (+666,666 RS / 100 BDT equivalent added).");
+        alert("Congratulations! Daily check-in bonus successfully claimed (+100 RS added).");
     }
 
     function openAdTask(adNo) {
-        const bdtRewards = [600, 750, 900, 1000];
-        let bdtEarned = bdtRewards[adNo - 1];
-        let tokenEarned = Math.floor((bdtEarned * 1000000) / 150);
+        const tokenRewards = [500, 700, 1000, 1200]; // Updated Ad task rewards: 500, 700, 1000, 1200 RS
+        let tokenEarned = tokenRewards[adNo - 1];
         
         currentCoins += tokenEarned;
         saveAndClothWallet();
-        alert(`Successfully completed Ad #${adNo}! +${tokenEarned.toLocaleString()} RS (${bdtEarned} BDT) added.`);
+        alert(`Successfully completed Ad #${adNo}! +${tokenEarned.toLocaleString()} RS added.`);
     }
 
     function copyReferralLink() {
