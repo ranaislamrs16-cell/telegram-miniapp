@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -42,22 +43,19 @@
             text-align: center;
             margin-bottom: 15px;
         }
-        .tap-button {
-            background: radial-gradient(circle, #ffd700, #cca600);
-            color: #000;
-            border: none;
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            font-size: 2rem;
-            font-weight: bold;
+        .rs-logo-text {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #ffd700;
+            letter-spacing: 2px;
             cursor: pointer;
-            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5);
-            margin: 15px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            margin: 20px 0;
+            text-align: center;
+            user-select: none;
+            transition: transform 0.1s ease;
+        }
+        .rs-logo-text:active {
+            transform: scale(0.95);
         }
         .tap-animation {
             position: absolute;
@@ -85,7 +83,6 @@
         .top-2 { border: 2px solid #c0c0c0; background: linear-gradient(135deg, #2a2a2a, #1a1a1a); }
         .top-3 { border: 2px solid #cd7f32; background: linear-gradient(135deg, #2a2a2a, #1a1a1a); }
         
-        /* Referral & Support Box */
         .box-style {
             background: #2c2c2c;
             padding: 15px;
@@ -94,7 +91,7 @@
             margin-bottom: 15px;
         }
 
-        /* Navbar */
+        /* Navbar with Icons */
         nav {
             position: fixed;
             bottom: 0;
@@ -105,7 +102,7 @@
             background-color: #1a1a1a;
             display: flex;
             justify-content: space-around;
-            padding: 12px 0;
+            padding: 10px 0;
             border-top: 1px solid #333;
             z-index: 1000;
         }
@@ -113,8 +110,15 @@
             background: none;
             border: none;
             color: #aaa;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        nav button span.icon {
+            font-size: 1.3rem;
         }
         nav button.active {
             color: #ff4b2b;
@@ -141,122 +145,129 @@
     <div id="home" class="section active-section">
         <header>Royal Casino - Home</header>
         <div class="home-banner">
-            <h3 style="margin:5px 0;">Daily Click & Ad Earning</h3>
-            <p style="margin:0; font-size: 0.9rem;">Tap the logo to earn coins instantly!</p>
+            <h3 style="margin:5px 0;">অ্যাডর্নিং ও ডেইলি টাস্ক</h3>
+            <p style="margin:0; font-size: 0.9rem;">অ্যাড আর্নিং করে ৫০০ টাকা পর্যন্ত আয় করতে পারেন। অ্যাডস আর্নিং এর উপর ক্লিক করুন।</p>
         </div>
-        <div style="text-align: center;">
-            <div style="font-size: 0.9rem; color: #ffd700; margin-bottom: 5px;">Timer / Live Earning Sync</div>
-            <button class="tap-button" id="rsTapBtn" onclick="handleTap(event)">RS</button>
-            <p style="font-size: 0.9rem; color: #aaa;">Tap here to earn coins</p>
+        
+        <div style="text-align: center; position: relative;" onclick="handleTap(event)">
+            <!-- RS Logo without background box -->
+            <div class="rs-logo-text">RS</div>
+            <p style="font-size: 0.9rem; color: #aaa; margin-top: -10px;">ট্যাপ করে কয়েন আর্ন করুন</p>
         </div>
+
         <div class="box-style" style="text-align: left; margin-top: 20px;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                <span>Daily Check-in</span>
-                <span style="color: #4CAF50;">+100 Coin</span>
+                <span>দৈনিক চেকিং (২৪ ঘণ্টায় ১ বার)</span>
+                <span style="color: #4CAF50; cursor: pointer;" onclick="dailyCheckIn()">+100 Coin</span>
             </div>
             <div style="display: flex; justify-content: space-between;">
-                <span>Ad Earning Task</span>
-                <span style="color: #ff4b2b;">+500 Coin</span>
+                <span>অ্যাড আর্নিং টাস্ক</span>
+                <span style="color: #ff4b2b; cursor: pointer;" onclick="openAdTask()">+500 Coin</span>
             </div>
         </div>
     </div>
 
     <!-- 2. Ranking Screen -->
     <div id="ranking" class="section">
-        <header>Leaderboard Ranking</header>
+        <header>লিডারবোর্ড র‍্যাঙ্কিং</header>
         <div class="ranking-card top-1">
-            <span>🥇 1. Premium Champion</span>
-            <span>10,000,000 RS (10,000 BDT)</span>
+            <span>🥇 ১. টপ প্লেয়ার (প্রিমিয়াম ব্যানার)</span>
+            <span>১০০,০০০ আরএস</span>
         </div>
         <div class="ranking-card top-2">
-            <span>🥈 2. Elite Player</span>
-            <span>8,000,000 RS (8,000 BDT)</span>
+            <span>🥈 ২. দ্বিতীয় স্থান</span>
+            <span>৮০,০০০ আরএস</span>
         </div>
         <div class="ranking-card top-3">
-            <span>🥉 3. Master Gambler</span>
-            <span>5,000,000 RS (5,000 BDT)</span>
+            <span>🥉 ৩. তৃতীয় স্থান</span>
+            <span>৫০,০০০ আরএস</span>
         </div>
         <hr style="border-color: #333; margin: 15px 0;">
-        <h4 style="color: #888; font-size: 0.9rem;">Live Demo User List (Top 30)</h4>
-        <div id="ranking-list">
-            <!-- Dynamic 30 Users will be loaded here -->
-        </div>
+        <h4 style="color: #888; font-size: 0.9rem;">লাইভ ডেমো ইউজার লিস্ট (৩০ জন)</h4>
+        <div id="ranking-list"></div>
     </div>
 
     <!-- 3. Referral Screen -->
     <div id="referral" class="section">
-        <header>Referral Program</header>
+        <header>রেফারেল প্রোগ্রাম</header>
         <div class="box-style">
-            <p style="margin:0 0 5px 0;">Your Referral Code</p>
+            <p style="margin:0 0 5px 0;">আপনার রেফারেল কোড</p>
             <h3 style="color: #ff4b2b; margin: 5px 0;">RAKIB500</h3>
-            <p style="margin:0; font-size: 0.85rem; color: #ccc;">Invite friends and get bonus coins instantly!</p>
+            <p style="margin:0; font-size: 0.85rem; color: #ccc;">প্রতি রেফারলে পান ৫০০ কয়েন!</p>
         </div>
-        <h4 style="color: #888; font-size: 0.9rem;">Live Referral Up-Down Activity</h4>
-        <div id="referral-list">
-            <!-- Dynamic 50-60 Referral Activity List -->
-        </div>
+        <h4 style="color: #888; font-size: 0.9rem;">লাইভ রেফারেল ডেমো তালিকা (৫০-৬০ জন)</h4>
+        <div id="referral-list"></div>
     </div>
 
     <!-- 4. Support Screen -->
     <div id="support" class="section">
-        <header>Customer Service & AI Support</header>
+        <header>এআই সাপোর্ট ও কাস্টমার কেয়ার</header>
         <div class="box-style" style="margin-top: 20px;">
-            <h3>24/7 Customer Care</h3>
+            <h3>২৪ ঘণ্টা কাস্টমার সার্ভিস</h3>
             <p style="color: #bbb; font-size: 0.9rem; line-height: 1.5;">
-                Get instant solutions for deposit, withdrawal, and gameplay issues from our official telegram support bot.
+                আপনার যেকোনো সমস্যার সমাধান, ডিপোজিট, উইথড্র এবং গেম সম্পর্কে কিছু সমাধানের জন্য আপনি ২৪ ঘণ্টা কাস্টমার সার্ভিস কেয়ার করুন।
             </p>
-            <a href="https://t.me/YourTelegramBotUsername" target="_blank" class="action-btn" style="margin-top: 15px;">Message Telegram Bot</a>
+            <a href="https://t.me/YourTelegramBotUsername" target="_blank" class="action-btn" style="margin-top: 15px;">সাপোর্টে মেসেজ করুন</a>
         </div>
     </div>
 
-    <!-- 5. Account & Wallet Screen -->
+    <!-- 5. Account Screen -->
     <div id="account" class="section">
-        <header>My Account & Wallet</header>
+        <header>আমার অ্যাকাউন্ট</header>
         
         <div style="background: linear-gradient(135deg, #2c3e50, #3498db); padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
-            <p style="margin: 0; font-size: 0.9rem; color: #d0d3d4;">Total RS Token / Coins</p>
+            <p style="margin: 0; font-size: 0.9rem; color: #d0d3d4;">টোটাল টোকেন ব্যালেন্স</p>
             <h2 id="wallet-coins" style="margin: 5px 0; font-size: 1.8rem; color: #f1c40f;">5,000,000 RS</h2>
-            <p style="margin: 0; font-size: 0.9rem; color: #d0d3d4;">Bangladesh Taka (BDT): <span id="wallet-bdt">5,000</span> BDT</p>
+            <p style="margin: 0; font-size: 0.9rem; color: #d0d3d4;">বাংলা টাকা (BDT): <span id="wallet-bdt">5,000</span> BDT</p>
         </div>
 
         <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-            <button onclick="openModal('deposit')" style="flex: 1; background: #27ae60; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">Deposit</button>
-            <button onclick="openModal('withdraw')" style="flex: 1; background: #c0392b; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">Withdraw</button>
+            <button onclick="openModal('deposit')" style="flex: 1; background: #27ae60; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">ডিপোজিট</button>
+            <button onclick="openModal('withdraw')" style="flex: 1; background: #c0392b; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">উইথড্র</button>
         </div>
 
         <div style="background: #252525; border-radius: 8px; overflow: hidden;">
-            <div style="padding: 12px 15px; border-bottom: 1px solid #333; cursor: pointer;">📋 Deposit History</div>
-            <div style="padding: 12px 15px; border-bottom: 1px solid #333; cursor: pointer;">📜 Withdraw History</div>
-            <div style="padding: 12px 15px; border-bottom: 1px solid #333; cursor: pointer;">🤖 Customer Care Log</div>
-            <div style="padding: 12px 15px; border-bottom: 1px solid #333; cursor: pointer;">🔒 Security & PIN Settings</div>
+            <div style="padding: 12px 15px; border-bottom: 1px solid #333; cursor: pointer;">📋 ডিপোজিট হিস্ট্রি</div>
+            <div style="padding: 12px 15px; border-bottom: 1px solid #333; cursor: pointer;">📜 উইথড্র হিস্ট্রি</div>
+            <div style="padding: 12px 15px; border-bottom: 1px solid #333; cursor: pointer;">🤖 কাস্টমার কেয়ার লগ</div>
+            <div style="padding: 12px 15px; border-bottom: 1px solid #333; cursor: pointer;">🔒 সিকিউরিটি সেটিংস</div>
         </div>
     </div>
 
-    <!-- Modal for Deposit/Withdraw -->
+    <!-- Modal -->
     <div id="actionModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:2000; justify-content:center; align-items:center;">
         <div style="background:#222; padding:20px; border-radius:10px; width:85%; max-width:350px; text-align:center;">
             <h3 id="modalTitle" style="margin-top:0; color:#ffd700;">Action</h3>
-            <p id="modalDesc" style="font-size:0.9rem; color:#bbb;">Please complete your transaction.</p>
-            <input type="text" placeholder="Enter Amount / TrxID" style="width:100%; padding:10px; margin:10px 0; background:#333; border:1px solid #444; color:#fff; border-radius:5px;">
+            <p id="modalDesc" style="font-size:0.9rem; color:#bbb;">সঠিক তথ্য দিয়ে সম্পন্ন করুন।</p>
+            <input type="text" placeholder="পরিমাণ বা ট্রানজেকশন আইডি দিন" style="width:100%; padding:10px; margin:10px 0; background:#333; border:1px solid #444; color:#fff; border-radius:5px;">
             <br>
-            <button onclick="closeModal()" class="action-btn" style="background:#27ae60; margin-right:5px;">Submit</button>
-            <button onclick="closeModal()" class="action-btn" style="background:#7f8c8d;">Cancel</button>
+            <button onclick="closeModal()" class="action-btn" style="background:#27ae60; margin-right:5px;">সাবমিট</button>
+            <button onclick="closeModal()" class="action-btn" style="background:#7f8c8d;">বাতিল</button>
         </div>
     </div>
 
-    <!-- Bottom Navbar -->
+    <!-- Bottom Navbar with Icons -->
     <nav>
-        <button onclick="switchTab('home')" id="nav-home" class="active">হোম</button>
-        <button onclick="switchTab('ranking')" id="nav-ranking">র‍্যাঙ্কিং</button>
-        <button onclick="switchTab('referral')" id="nav-referral">রেফারেল</button>
-        <button onclick="switchTab('support')" id="nav-support">সাপোর্ট</button>
-        <button onclick="switchTab('account')" id="nav-account">অ্যাকাউন্ট</button>
+        <button onclick="switchTab('home')" id="nav-home" class="active">
+            <span class="icon">🏠</span>হোম
+        </button>
+        <button onclick="switchTab('ranking')" id="nav-ranking">
+            <span class="icon">🏆</span>র‍্যাঙ্কিং
+        </button>
+        <button onclick="switchTab('referral')" id="nav-referral">
+            <span class="icon">👥</span>রেফারেল
+        </button>
+        <button onclick="switchTab('support')" id="nav-support">
+            <span class="icon">🎧</span>সাপোর্ট
+        </button>
+        <button onclick="switchTab('account')" id="nav-account">
+            <span class="icon">👤</span>অ্যাকাউন্ট
+        </button>
     </nav>
 
 </div>
 
 <script>
-    // Tab Switching Logic
     function switchTab(tabId) {
         document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active-section'));
         document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
@@ -265,35 +276,47 @@
         document.getElementById('nav-' + tabId).classList.add('active');
     }
 
-    // Tap to Earn Animation & Counter Logic
-    let currentCoins = 5000000;
+    let currentCoins = 5000000; // 5 Million = 5000 BDT (1 Million = 100 BDT calculation adjustment: 5M / 1000 = 5000 BDT)
+    
     function handleTap(event) {
-        const btn = event.currentTarget;
-        const rect = btn.getBoundingClientRect();
-        
         currentCoins += 10;
-        document.getElementById('wallet-coins').innerText = currentCoins.toLocaleString() + ' RS';
-        document.getElementById('wallet-bdt').innerText = (currentCoins / 1000).toLocaleString();
+        updateWallet();
 
+        const rect = event.currentTarget.getBoundingClientRect();
         const animationEl = document.createElement('div');
         animationEl.className = 'tap-animation';
         animationEl.innerText = '+10';
         
-        const x = event.clientX - rect.left - 20;
-        const y = event.clientY - rect.top - 20;
+        animationEl.style.left = (event.clientX - rect.left) + 'px';
+        animationEl.style.top = (event.clientY - rect.top) + 'px';
         
-        animationEl.style.left = (x || 50) + 'px';
-        animationEl.style.top = (y || 50) + 'px';
-        
-        btn.appendChild(animationEl);
+        event.currentTarget.appendChild(animationEl);
         setTimeout(() => animationEl.remove(), 800);
     }
 
-    // Modal Triggers
+    function updateWallet() {
+        document.getElementById('wallet-coins').innerText = currentCoins.toLocaleString() + ' RS';
+        // 1 Million = 100 BDT logic: (Coins / 1,000,000) * 100 => Coins / 10,000
+        let bdtAmount = Math.floor(currentCoins / 1000); 
+        document.getElementById('wallet-bdt').innerText = bdtAmount.toLocaleString();
+    }
+
+    function dailyCheckIn() {
+        alert('সফলভাবে দৈনিক চেকিং সম্পন্ন হয়েছে! +১০০ কয়েন যোগ হয়েছে।');
+        currentCoins += 100;
+        updateWallet();
+    }
+
+    function openAdTask() {
+        alert('অ্যাড আর্নিং টাস্কে স্বাগতম! ভিডিও দেখে কয়েন সংগ্রহ করুন।');
+        currentCoins += 500;
+        updateWallet();
+    }
+
     function openModal(type) {
         document.getElementById('actionModal').style.display = 'flex';
-        document.getElementById('modalTitle').innerText = type === 'deposit' ? 'Deposit via bKash/Nagad' : 'Withdraw Funds';
-        document.getElementById('modalDesc').innerText = type === 'deposit' ? 'Enter deposit amount and TrxID' : 'Enter withdrawal amount to your wallet';
+        document.getElementById('modalTitle সন্ত্রাসী/title').innerText = type === 'deposit' ? 'বিকাশ/নগদ ডিপোজিট' : 'টাকা উইথড্র';
+        document.getElementById('modalDesc').innerText = type === 'deposit' ? 'আপনার ডিপোজিট পরিমাণ ও ট্রানজেকশন আইডি দিন' : 'আপনার পেমেন্ট মাধ্যম সিলেক্ট করে উইথড্র করুন';
     }
     function closeModal() {
         document.getElementById('actionModal').style.display = 'none';
@@ -304,25 +327,25 @@
     for (let i = 4; i <= 33; i++) {
         rankingList.innerHTML += `
             <div class="ranking-card">
-                <span>${i}. Player_User_${i}</span>
-                <span>${(4000000 - (i * 100000)).toLocaleString()} RS</span>
+                <span>${i}. ব্যবহারকারী_${i}</span>
+                <span>${(4000000 - (i * 50000)).toLocaleString()} আরএস</span>
             </div>
         `;
     }
 
-    // Load 50 Demo Referral Activities
+    // Load 60 Demo Referral Activities
     const referralList = document.getElementById('referral-list');
-    const names = ["Tanvir", "Rayhan", "Sakib", "Imran", "Nayeem", "Fahim", "Arman", "Joy", "Rony", "Hasan"];
-    for (let i = 1; i <= 50; i++) {
+    const names = ["রায়হান", "তানভীর", "সাকিব", "ইমরান", "নাঈম", "ফাহিম", "আরমান", "জয়", "রনি", "হাসান"];
+    for (let i = 1; i <= 60; i++) {
         let randomName = names[Math.floor(Math.random() * names.length)] + '_' + i;
         referralList.innerHTML += `
             <div class="ranking-card">
-                <span>User: ${randomName}</span>
-                <span style="color: #4CAF50;">+500 RS Bonus</span>
+                <span>ইউজার: ${randomName} (রেফারেল বোনাস)</span>
+                <span style="color: #4CAF50;">+৫০০ কয়েন</span>
             </div>
         `;
     }
 </script>
 
 </body>
-                </html>
+            </html>
