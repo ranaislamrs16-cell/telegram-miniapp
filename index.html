@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -207,13 +208,13 @@
     
     <!-- 1. Home Screen -->
     <div id="home" class="section active-section">
-        <header>Royal Casino - Home</header>
+        <header>RS Earn Tap Tap Earning</header>
         
         <!-- Hamster Style Counter with Rate Info -->
         <div class="counter-container">
-            <h1 id="wallet-coins" class="total-coins">1,000,000</h1>
+            <h1 id="wallet-coins" class="total-coins">1,000,000 RS</h1>
             <div class="bdt-value">৳ <span id="wallet-bdt">150</span> BDT</div>
-            <div class="rate-note">(Rate: 1M Hamster Tokens = 150 BDT)</div>
+            <div class="rate-note">(Rate: 1M RS Tokens = 150 BDT)</div>
         </div>
 
         <!-- Rotating Logo Tap Area with RS text in middle -->
@@ -223,14 +224,14 @@
             <span class="center-rs-text">RS Coin</span>
         </div>
 
-        <!-- Daily Check-In & Login Bonus Section -->
+        <!-- Daily Check-In & Login Bonus Section (24-hour lock mechanism) -->
         <div class="box-style" style="background: linear-gradient(135deg, #332200, #1a1a1a); border: 1px solid #ffd700; text-align: left;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <div style="font-weight: bold; color: #ffd700; font-size: 0.95rem;">🎁 Daily Check-In & Signing Bonus</div>
-                    <div style="font-size: 0.8rem; color: #ccc;">Reward: 100 BDT equivalent tokens</div>
+                    <div style="font-size: 0.8rem; color: #ccc;">Reward: 100 BDT equivalent (666,666 RS)</div>
                 </div>
-                <button onclick="claimDailyBonus()" style="background: #ffd700; color: #000; border: none; padding: 6px 14px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Claim</button>
+                <button id="daily-claim-btn" onclick="claimDailyBonus()" style="background: #ffd700; color: #000; border: none; padding: 6px 14px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Claim</button>
             </div>
         </div>
 
@@ -239,19 +240,19 @@
             <h4 style="margin: 0 0 10px 0; color: #ff4b2b;">🔥 Ad Earning Tasks</h4>
             <div style="display: flex; justify-content: space-between; margin-bottom: 6px; padding: 7px; background: #222; border-radius: 5px; font-size: 0.85rem;">
                 <span>1. Daily Video Ad Task</span>
-                <span style="color: #4CAF50; cursor: pointer; font-weight: bold;" onclick="openAdTask(1)">+600 BDT Tokens</span>
+                <span style="color: #4CAF50; cursor: pointer; font-weight: bold;" onclick="openAdTask(1)">+4,000,000 RS (600 BDT)</span>
             </div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 6px; padding: 7px; background: #222; border-radius: 5px; font-size: 0.85rem;">
                 <span>2. Sponsored Visit Ad</span>
-                <span style="color: #ff4b2b; cursor: pointer; font-weight: bold;" onclick="openAdTask(2)">+750 BDT Tokens</span>
+                <span style="color: #ff4b2b; cursor: pointer; font-weight: bold;" onclick="openAdTask(2)">+5,000,000 RS (750 BDT)</span>
             </div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 6px; padding: 7px; background: #222; border-radius: 5px; font-size: 0.85rem;">
                 <span>3. Premium Offerwall Ad</span>
-                <span style="color: #ffd700; cursor: pointer; font-weight: bold;" onclick="openAdTask(3)">+900 BDT Tokens</span>
+                <span style="color: #ffd700; cursor: pointer; font-weight: bold;" onclick="openAdTask(3)">+6,000,000 RS (900 BDT)</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 7px; background: #222; border-radius: 5px; font-size: 0.85rem;">
                 <span>4. Ultimate Reward Ad</span>
-                <span style="color: #3498db; cursor: pointer; font-weight: bold;" onclick="openAdTask(4)">+1000 BDT Tokens</span>
+                <span style="color: #3498db; cursor: pointer; font-weight: bold;" onclick="openAdTask(4)">+6,666,666 RS (1000 BDT)</span>
             </div>
         </div>
     </div>
@@ -283,21 +284,28 @@
         <div id="ranking-list"></div>
     </div>
 
-    <!-- 3. Referral Screen (Updated with 30-40 English names & Live Activity) -->
+    <!-- 3. Referral Screen (Updated with Premium Frame & Copy Link feature) -->
     <div id="referral" class="section">
         <header>Referral Program</header>
-        <div class="box-style">
-            <p style="margin:0 0 5px 0;">Your Referral Link / Code</p>
-            <h3 style="color: #ff4b2b; margin: 5px 0;">https://t.me/RoyalCasinoBot?start=RAKIB500</h3>
-            <p style="margin:0; font-size: 0.85rem; color: #ccc;">Get 500 RS Tokens per referral!</p>
+        <div class="box-style" style="border: 2px solid #ff4b2b; background: linear-gradient(135deg, #2a1a1a, #1e1e1e);">
+            <p style="margin:0 0 5px 0; font-weight: bold; color: #ffd700;">বন্ধুদেরকে আমন্ত্রণ জানান এবং 1,000 RS টোকেন কালেক্ট করুন ও বোনাস নিন!</p>
+            <div style="display: flex; gap: 5px; margin: 10px 0;">
+                <input type="text" id="ref-link-input" value="https://t.me/RoyalCasinoBot?start=RAKIB500" readonly style="flex: 1; background: #111; border: 1px solid #444; color: #fff; padding: 8px; border-radius: 5px; font-size: 0.8rem;">
+                <button onclick="copyReferralLink()" style="background: #ff4b2b; color: #fff; border: none; padding: 8px 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">Copy</button>
+            </div>
+            <p style="margin:0; font-size: 0.8rem; color: #ccc;">Get 1,000 RS Tokens per referral!</p>
         </div>
+        
         <h4 style="color: #ff4b2b; font-size: 0.9rem; margin: 15px 0 10px 0;">🔥 Live Referral Rewards Activity</h4>
-        <div id="referral-live-list" style="max-height: 320px; overflow-y: auto;">
-            <!-- Live updating demo referral users list will be injected here -->
+        <!-- Premium Framed Container for Live Members List -->
+        <div style="border: 2px solid #ffd700; border-radius: 10px; padding: 8px; background: rgba(255, 215, 0, 0.03);">
+            <div id="referral-live-list" style="max-height: 280px; overflow-y: auto;">
+                <!-- Live updating demo referral users list will be injected here -->
+            </div>
         </div>
     </div>
 
-    <!-- 4. Support Screen (Updated with CS Representative Image, Green Tick & AI Bot Link) -->
+    <!-- 4. Support Screen (Linked to Telegram AI Bot) -->
     <div id="support" class="section">
         <header>AI Support & Customer Care</header>
         <div class="box-style" style="margin-top: 20px; text-align: center; position: relative;">
@@ -359,21 +367,24 @@
         document.getElementById('nav-' + tabId).classList.add('active');
     }
 
-    let currentCoins = 1000000;
-    
+    // Load coins from localStorage or default to 1,000,000 RS
+    let currentCoins = localStorage.getItem('royal_casino_coins') ? parseInt(localStorage.getItem('royal_casino_coins')) : 1000000;
+    updateWallet();
+
     function handleTap(event) {
-        const coinValues = [1000, 2000, 3000, 5000, 8000, 10000];
+        // Small tap values: 1, 2, or 3 RS coins
+        const coinValues = [1, 2, 3];
         const randomCoin = coinValues[Math.floor(Math.random() * coinValues.length)];
         
         currentCoins += randomCoin;
-        updateWallet();
+        saveAndClothWallet();
 
         const rect = event.currentTarget.getBoundingClientRect();
         const animationEl = document.createElement('div');
         animationEl.className = 'tap-animation';
-        animationEl.innerText = '+' + randomCoin.toLocaleString();
+        animationEl.innerText = '+' + randomCoin + ' RS';
         
-        const colors = ['#ff3333', '#ffd700', '#ffffff', '#ff8c00', '#00ffcc'];
+        const colors = ['#ffd700', '#ffffff', '#ff8c00', '#00ffcc'];
         animationEl.style.color = colors[Math.floor(Math.random() * colors.length)];
 
         animationEl.style.left = (event.clientX - rect.left - 10) + 'px';
@@ -384,7 +395,7 @@
     }
 
     function updateWallet() {
-        document.getElementById('wallet-coins').innerText = currentCoins.toLocaleString();
+        document.getElementById('wallet-coins').innerText = currentCoins.toLocaleString() + ' RS';
         let bdtAmount = Math.floor((currentCoins * 150) / 1000000); 
         document.getElementById('wallet-bdt').innerText = bdtAmount.toLocaleString();
         
@@ -394,11 +405,44 @@
         }
     }
 
-    function claimDailyBonus() {
-        let bonusCoins = 666666;
-        currentCoins += bonusCoins;
+    function saveAndClothWallet() {
+        localStorage.setItem('royal_casino_coins', currentCoins);
         updateWallet();
-        alert("Congratulations! Daily check-in and signing bonus successfully claimed (+100 BDT equivalent tokens added).");
+    }
+
+    // 24-hour Daily Check-in Lock Logic
+    function checkDailyBonusStatus() {
+        let lastClaimTime = localStorage.getItem('last_claim_time');
+        if (lastClaimTime) {
+            let elapsedTime = new Date().getTime() - parseInt(lastClaimTime);
+            let twentyFourHours = 24 * 60 * 60 * 1000;
+            if (elapsedTime < twentyFourHours) {
+                let btn = document.getElementById('daily-claim-btn');
+                btn.innerText = "Claimed";
+                btn.style.background = "#555";
+                btn.style.color = "#aaa";
+                btn.style.cursor = "not-allowed";
+                btn.disabled = true;
+            }
+        }
+    }
+    checkDailyBonusStatus();
+
+    function claimDailyBonus() {
+        let bonusCoins = 666666; // 100 BDT equivalent RS
+        currentCoins += bonusCoins;
+        saveAndClothWallet();
+        
+        localStorage.setItem('last_claim_time', new Date().getTime().toString());
+        
+        let btn = document.getElementById('daily-claim-btn');
+        btn.innerText = "Claimed";
+        btn.style.background = "#555";
+        btn.style.color = "#aaa";
+        btn.style.cursor = "not-allowed";
+        btn.disabled = true;
+
+        alert("Congratulations! Daily check-in and signing bonus successfully claimed (+666,666 RS / 100 BDT equivalent added).");
     }
 
     function openAdTask(adNo) {
@@ -407,8 +451,17 @@
         let tokenEarned = Math.floor((bdtEarned * 1000000) / 150);
         
         currentCoins += tokenEarned;
-        updateWallet();
-        alert(`Successfully completed Ad #${adNo}! +${bdtEarned} BDT equivalent coins added.`);
+        saveAndClothWallet();
+        alert(`Successfully completed Ad #${adNo}! +${tokenEarned.toLocaleString()} RS (${bdtEarned} BDT) added.`);
+    }
+
+    // Copy Referral Link Function
+    function copyReferralLink() {
+        let copyText = document.getElementById("ref-link-input");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value);
+        alert("Referral link copied to clipboard!");
     }
 
     // 60 Ranking Users with English Names
@@ -433,7 +486,7 @@
         `;
     }
 
-    // 35-40 Referral Live Activity List with English Names
+    // 38 Referral Live Activity List with English Names inside Framed Box
     const referralLiveList = document.getElementById('referral-live-list');
     const refNames = [
         "Liam", "Noah", "Oliver", "Elijah", "James", "William", "Benjamin", "Lucas", "Henry", "Theodore",
@@ -447,9 +500,9 @@
         for (let i = 1; i <= 38; i++) {
             let rName = refNames[(i - 1) % refNames.length];
             referralLiveList.innerHTML += `
-                <div class="ranking-card" style="padding: 10px 12px; margin-bottom: 6px; background: #252525;">
-                    <span style="font-size: 0.85rem;">${i}. <b>${rName}_Ref</b> joined via invite</span>
-                    <span style="color: #4CAF50; font-size: 0.85rem; font-weight: bold;">+500 RS Received</span>
+                <div class="ranking-card" style="padding: 8px 10px; margin-bottom: 5px; background: #222;">
+                    <span style="font-size: 0.82rem;">${i}. <b>${rName}_Ref</b> joined via invite</span>
+                    <span style="color: #ffd700; font-size: 0.82rem; font-weight: bold;">+1,000 RS Received</span>
                 </div>
             `;
         }
@@ -458,4 +511,4 @@
 </script>
 
 </body>
-    </html>
+                    </html>
