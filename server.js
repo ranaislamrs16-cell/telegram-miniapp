@@ -1,4 +1,3 @@
-
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const path = require('path');
@@ -9,8 +8,8 @@ app.use(express.json());
 // স্ট্যাটিক ফাইল বা ফ্রন্টএন্ড ফাইলের জন্য ফোল্ডার সেটআপ
 app.use(express.static(__dirname));
 
-// MongoDB কানেকশন স্ট্রিং (Render এনভায়রনমেন্ট ভ্যারিয়েবল বা লোকাল ইউআরএল)
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/";
+// আপনার সঠিক MongoDB Atlas কানেকশন লিংক
+const MONGO_URI = "mongodb+srv://ranaislamrs16_db_user:mdrana321@cluster0.hgumy5c.mongodb.net/?appName=Cluster0";
 const client = new MongoClient(MONGO_URI);
 
 let db;
