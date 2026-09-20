@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Telegram Mini App</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1, h2 { color: #2c3e50; }
+        .stats-box { background: #e8f4f8; padding: 15px; border-radius: 6px; margin-bottom: 20px; font-size: 18px; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #3498db; color: white; }
+        button { background-color: #2ecc71; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #27ae60; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Admin Dashboard</h1>
+    
+    <div class="stats-box" id="statsBox">
+        Total Active Users: Loading...
+    </div>
+
+    <h2>Pending Withdrawals</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Amount</th>
+                <th>Method / Number</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="withdrawalsTable">
+            <tr><td colspan="4">Loading pending withdrawals...</td></tr>
+        </tbody>
+    </table>
+
+    <h2>User Rankings & Stats</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>User ID</th>
+                <th>Score / Points</th>
+            </tr>
+        </thead>
+        <tbody id="usersTable">
+            <tr><td colspan="3">Loading users...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // ডাটা লোড করার ফাংশন
+    async function loadAdminData() {
+        try {
+            // ১. পেন্ডিং উইথড্র ডাটা আনা
+            const wdResponse = await fetch('/api/admin/withdrawals');
+            const wdData = await wdResponse.json();
+            const wdTable = document.getElementById('withdrawalsTable');
+            wdTable.innerHTML = '';
+
+            if (wdData.success && wdData.withdrawals.length > 0) {
+                wdData.withdrawals.forEach(item => {
+                    wdTable.innerHTML += `
+                        <tr>
+                            <td>${item.user_id}</td>
+                            <td>${item.amount}</td>
+                            <td>${item.payment_info || 'N/A'}</td>
+                            <td><button onclick="approveWithdrawal('${item.user_id}')">Mark as Paid</button></td>
+                        </tr>
+                    `;
+                });
+            } else {
+                wdTable.innerHTML = `<tr><td colspan="4">No pending withdrawals found.</td></tr>`;
+            }
+
+            // ২. লাইভ ইউজার এবং র‍্যাঙ্কিং ডাটা আনা
+            const userResponse = await fetch('/api/admin/users');
+            const userData = await userResponse.json();
+            
+            if (userData.success) {
+                document.getElementById('statsBox').innerText = `Total Active Users: ${userData.total_active_users}`;
+                
+                const userTable = document.getElementById('usersTable');
+                userTable.innerHTML = '';
+                userData.users.forEach((user, index) => {
+                    userTable.innerHTML += `
+                        <tr>
+                            <td>#${index + 1}</td>
+                            <td>${user.user_id}</td>
+                            <td>${user.score || 0}</td>
+                        </tr>
+                    `;
+                });
+            }
+        } catch (error) {
+            console.error('Error loading admin data:', error);
+        }
+    }
+
+    // উইথড্র অ্যাপ্রুভ বা পেইড করার ফাংশন
+    async function approveWithdrawal(userId) {
+        if (!confirm(`Are you sure you want to mark withdrawal for user ${userId} as paid?`)) return;
+
+        try {
+            const response = await fetch('/api/admin/withdrawals/approve', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId })
+            });
+            const result = await response.json();
+            alert(result.message);
+            loadAdminData(); // ডাটা রিফ্রেশ করা
+        } catch (error) {
+            alert('Failed to update status.');
+        }
+    }
+
+    // পেজ লোড হওয়ার সাথে সাথে ডাটা ফেচ করা
+    loadAdminData();
+    // প্রতি ১০ সেকেন্ড পর পর অটো রিফ্রেশ হবে
+    setInterval(loadAdminData, 10000);
+</script>
+
+</body>
+                                                       </html>
